@@ -152,7 +152,7 @@
                                 <span class="text-[11px] text-slate-400">Researcher assigned; participant should not enter their name</span>
                             </div>
                             <div class="w-full sm:w-64">
-                                <input type="text" id="secInstCode" required class="tracker-input w-full px-3.5 py-2 rounded-xl border border-slate-300 focus:ring-2 focus:ring-[#168582] focus:border-[#168582] outline-none text-sm transition" placeholder="e.g. KMC,AMC,KGMC etc..">
+                                <input type="text" id="secInstCode" required class="tracker-input w-full px-3.5 py-2 rounded-xl border border-slate-300 focus:ring-2 focus:ring-[#168582] focus:border-[#168582] outline-none text-sm transition" placeholder="e.g. KMC, AMC, KGMC">
                             </div>
                         </div>
                     </div>
@@ -1062,7 +1062,7 @@
         // Initial render
         renderCategories();
 
-        // Question Completion Tracker logic (Updated for Height box 5)
+        // Question Completion Tracker logic
         function checkCompletions() {
             const boxes = document.querySelectorAll('.q-card');
             boxes.forEach(box => {
@@ -1071,7 +1071,6 @@
                 const qid = statusIcon?.getAttribute('data-qid');
 
                 if (qid === '5') {
-                    // Height special validation check for feet or inches
                     const ft = document.getElementById('secHeightFeet').value.trim();
                     const inc = document.getElementById('secHeightInches').value.trim();
                     isFilled = (ft !== '' || inc !== '');
@@ -1131,6 +1130,20 @@
         document.getElementById('assessmentForm').addEventListener('submit', async (e) => {
             e.preventDefault();
 
+            // Validate Section E Pain Mapping completion across all 4 domains
+            const domainKeys = ['twelveMonths', 'sevenDays', 'activities', 'healthcare'];
+            for (const dKey of domainKeys) {
+                const allAnswered = categories.every(cat => painData[dKey][cat.id] !== null);
+                if (!allAnswered) {
+                    showModal(
+                        "Incomplete Pain Mapping",
+                        "Please complete all body parts selection (Tick or Cross) across all 4 domains in Section E before submitting.",
+                        false
+                    );
+                    return;
+                }
+            }
+
             const feet = parseFloat(document.getElementById('secHeightFeet').value) || 0;
             const inches = parseFloat(document.getElementById('secHeightInches').value) || 0;
             const totalInches = (feet * 12) + inches;
@@ -1138,7 +1151,7 @@
 
             const demographic = {
                 email: document.getElementById('secEmail').value,
-                studentId: document.getElementById('secStudentId').value,
+                studentId: document.getElementById('secStudentId')?.value || "",
                 age: document.getElementById('secAge').value,
                 sex: document.querySelector('input[name="secSex"]:checked')?.value || "",
                 academicYear: document.querySelector('input[name="secYear"]:checked')?.value || "",
