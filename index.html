@@ -1,0 +1,1236 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MSK Pain Survey Assessment</title>
+    <link rel="icon" type="image/png" href="https://pub-2e95e9514d6e4bc7bc685a9ac293ec89.r2.dev/Medical%20Images/Medical%20Logo.png">
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .theme-bg { background-color: #168582; }
+        .theme-text { color: #168582; }
+        .theme-border { border-color: #168582; }
+        .theme-focus:focus { border-color: #168582; ring-color: #168582; }
+        
+        .pain-dot-green {
+            background-color: #22c55e !important;
+            border: 2px solid #ffffff !important;
+            box-shadow: 0 0 8px rgba(34, 197, 94, 0.9);
+            transform: scale(1.1) !important;
+            opacity: 1 !important;
+        }
+        .pain-dot-red {
+            background-color: #ef4444 !important;
+            border: 2px solid #ffffff !important;
+            box-shadow: 0 0 8px rgba(239, 68, 68, 0.9);
+            transform: scale(1.1) !important;
+            opacity: 1 !important;
+        }
+        .q-card {
+            transition: all 0.3s ease;
+        }
+        .q-card.completed {
+            border-color: #34d399 !important;
+            background-color: #f0fdf4 !important;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 h-full flex flex-col">
+
+    <header class="theme-bg text-white shadow-md py-4 px-6 sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto grid grid-cols-[auto_1fr_auto] items-center gap-4">
+            <div class="flex items-center">
+                <img src="https://pub-2e95e9514d6e4bc7bc685a9ac293ec89.r2.dev/Medical%20Images/Medical%20Logo.png" alt="Medical Logo" class="w-12 h-12 rounded-full object-cover shadow-md border-2 border-white/80">
+            </div>
+            <div class="text-center">
+                <h1 class="text-lg font-bold tracking-tight">MSK Pain Survey</h1>
+                <p class="text-xs text-teal-100">MBBS Practical Training & Anatomical Pain Mapping Module</p>
+            </div>
+            <div></div>
+        </div>
+    </header>
+
+    <main class="flex-1 max-w-6xl w-full mx-auto p-4 sm:p-6 space-y-6">
+        <form id="assessmentForm" class="space-y-6">
+
+            <section class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 sm:p-8 space-y-6">
+                <div class="flex items-center space-x-3 pb-4 border-b border-slate-100">
+                    <div class="bg-teal-50 text-[#168582] w-8 h-8 rounded-full flex items-center justify-center font-bold text-sm">1</div>
+                    <div>
+                        <h2 class="text-lg font-semibold text-slate-900">SECTION A — DEMOGRAPHIC AND ACADEMIC INFORMATION</h2>
+                        <p class="text-xs text-slate-500">Please provide your background details clearly in the fields below</p>
+                    </div>
+                </div>
+
+                <div class="space-y-4">
+                    <!-- Email -->
+                    <div id="qBox_email" class="q-card bg-white rounded-xl border border-slate-200 p-4 shadow-sm flex items-start gap-3">
+                        <div class="pt-0.5 text-slate-300 status-icon" data-qid="email"><i class="fa-solid fa-circle-check text-lg"></i></div>
+                        <div class="flex-1 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                            <label class="text-sm font-medium text-slate-800 flex-1">Email Address <span class="text-red-500">*</span></label>
+                            <div class="w-full sm:w-64">
+                                <input type="email" id="secEmail" required class="tracker-input w-full px-3.5 py-2 rounded-xl border border-slate-300 focus:ring-2 focus:ring-[#168582] focus:border-[#168582] outline-none text-sm transition" placeholder="student@example.com">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Q1: Age -->
+                    <div id="qBox_1" class="q-card bg-white rounded-xl border border-slate-200 p-4 shadow-sm flex items-start gap-3">
+                        <div class="pt-0.5 text-slate-300 status-icon" data-qid="1"><i class="fa-solid fa-circle-check text-lg"></i></div>
+                        <div class="flex-1 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                            <label class="text-sm font-medium text-slate-800 flex-1">1. Age (years)</label>
+                            <div class="w-full sm:w-48">
+                                <input type="number" id="secAge" required min="15" max="100" class="tracker-input w-full px-3.5 py-2 rounded-xl border border-slate-300 focus:ring-2 focus:ring-[#168582] focus:border-[#168582] outline-none text-sm transition" placeholder="e.g. 22">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Q2 -->
+                    <div id="qBox_2" class="q-card bg-white rounded-xl border border-slate-200 p-4 shadow-sm flex items-start gap-3">
+                        <div class="pt-0.5 text-slate-300 status-icon" data-qid="2"><i class="fa-solid fa-circle-check text-lg"></i></div>
+                        <div class="flex-1 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                            <label class="text-sm font-medium text-slate-800 flex-1">2. Sex</label>
+                            <div class="flex flex-wrap gap-3 w-full sm:w-auto">
+                                <label class="flex items-center space-x-2 text-xs font-medium cursor-pointer bg-slate-50 px-3.5 py-2 rounded-lg border border-slate-200 hover:bg-slate-100">
+                                    <input type="radio" name="secSex" value="Male" required class="tracker-input text-[#168582]">
+                                    <span>Male</span>
+                                </label>
+                                <label class="flex items-center space-x-2 text-xs font-medium cursor-pointer bg-slate-50 px-3.5 py-2 rounded-lg border border-slate-200 hover:bg-slate-100">
+                                    <input type="radio" name="secSex" value="Female" class="tracker-input text-[#168582]">
+                                    <span>Female</span>
+                                </label>
+                                <label class="flex items-center space-x-2 text-xs font-medium cursor-pointer bg-slate-50 px-3.5 py-2 rounded-lg border border-slate-200 hover:bg-slate-100">
+                                    <input type="radio" name="secSex" value="Prefer not to say" class="tracker-input text-[#168582]">
+                                    <span>Prefer not to say</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Q3 -->
+                    <div id="qBox_3" class="q-card bg-white rounded-xl border border-slate-200 p-4 shadow-sm flex items-start gap-3">
+                        <div class="pt-0.5 text-slate-300 status-icon" data-qid="3"><i class="fa-solid fa-circle-check text-lg"></i></div>
+                        <div class="flex-1 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                            <label class="text-sm font-medium text-slate-800 flex-1">3. Academic year</label>
+                            <div class="flex flex-wrap gap-2 w-full sm:w-auto">
+                                <label class="flex items-center space-x-1.5 text-xs font-medium cursor-pointer bg-slate-50 px-3 py-2 rounded-lg border border-slate-200 hover:bg-slate-100">
+                                    <input type="radio" name="secYear" value="1st" required class="tracker-input text-[#168582]">
+                                    <span>1st</span>
+                                </label>
+                                <label class="flex items-center space-x-1.5 text-xs font-medium cursor-pointer bg-slate-50 px-3 py-2 rounded-lg border border-slate-200 hover:bg-slate-100">
+                                    <input type="radio" name="secYear" value="2nd" class="tracker-input text-[#168582]">
+                                    <span>2nd</span>
+                                </label>
+                                <label class="flex items-center space-x-1.5 text-xs font-medium cursor-pointer bg-slate-50 px-3 py-2 rounded-lg border border-slate-200 hover:bg-slate-100">
+                                    <input type="radio" name="secYear" value="3rd" class="tracker-input text-[#168582]">
+                                    <span>3rd</span>
+                                </label>
+                                <label class="flex items-center space-x-1.5 text-xs font-medium cursor-pointer bg-slate-50 px-3 py-2 rounded-lg border border-slate-200 hover:bg-slate-100">
+                                    <input type="radio" name="secYear" value="4th" class="tracker-input text-[#168582]">
+                                    <span>4th</span>
+                                </label>
+                                <label class="flex items-center space-x-1.5 text-xs font-medium cursor-pointer bg-slate-50 px-3 py-2 rounded-lg border border-slate-200 hover:bg-slate-100">
+                                    <input type="radio" name="secYear" value="5th" class="tracker-input text-[#168582]">
+                                    <span>5th</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Q4 -->
+                    <div id="qBox_4" class="q-card bg-white rounded-xl border border-slate-200 p-4 shadow-sm flex items-start gap-3">
+                        <div class="pt-0.5 text-slate-300 status-icon" data-qid="4"><i class="fa-solid fa-circle-check text-lg"></i></div>
+                        <div class="flex-1 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                            <div class="flex-1">
+                                <label class="text-sm font-medium text-slate-800 block">4. Institution Name</label>
+                                <span class="text-[11px] text-slate-400">Researcher assigned; participant should not enter their name</span>
+                            </div>
+                            <div class="w-full sm:w-64">
+                                <input type="text" id="secInstCode" required class="tracker-input w-full px-3.5 py-2 rounded-xl border border-slate-300 focus:ring-2 focus:ring-[#168582] focus:border-[#168582] outline-none text-sm transition" placeholder="e.g. KMC,AMC,KGMC etc..">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Q5 (Height with Feet & Inches Inputs -> Auto CM Conversion) -->
+                    <div id="qBox_5" class="q-card bg-white rounded-xl border border-slate-200 p-4 shadow-sm flex items-start gap-3">
+                        <div class="pt-0.5 text-slate-300 status-icon" data-qid="5"><i class="fa-solid fa-circle-check text-lg"></i></div>
+                        <div class="flex-1 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                            <div class="flex-1">
+                                <label class="text-sm font-medium text-slate-800 block">5. Height</label>
+                                <span id="heightConversionText" class="text-xs font-semibold text-[#168582]"></span>
+                            </div>
+                            <div class="flex items-center gap-2 w-full sm:w-auto">
+                                <div class="flex items-center space-x-1 bg-slate-50 px-3 py-1.5 rounded-xl border border-slate-300 flex-1 sm:flex-initial">
+                                    <input type="number" id="secHeightFeet" min="3" max="8" class="tracker-input w-16 px-2 py-1 text-xs rounded-lg border border-slate-300 outline-none text-center" placeholder="e.g. 5">
+                                    <span class="text-xs text-slate-500 font-medium">ft</span>
+                                </div>
+                                <div class="flex items-center space-x-1 bg-slate-50 px-3 py-1.5 rounded-xl border border-slate-300 flex-1 sm:flex-initial">
+                                    <input type="number" id="secHeightInches" min="0" max="11" class="tracker-input w-16 px-2 py-1 text-xs rounded-lg border border-slate-300 outline-none text-center" placeholder="e.g. 9">
+                                    <span class="text-xs text-slate-500 font-medium">in</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Q6 -->
+                    <div id="qBox_6" class="q-card bg-white rounded-xl border border-slate-200 p-4 shadow-sm flex items-start gap-3">
+                        <div class="pt-0.5 text-slate-300 status-icon" data-qid="6"><i class="fa-solid fa-circle-check text-lg"></i></div>
+                        <div class="flex-1 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                            <label class="text-sm font-medium text-slate-800 flex-1">6. Weight (kg)</label>
+                            <div class="w-full sm:w-48">
+                                <input type="number" id="secWeight" required min="30" max="250" class="tracker-input w-full px-3.5 py-2 rounded-xl border border-slate-300 focus:ring-2 focus:ring-[#168582] focus:border-[#168582] outline-none text-sm transition" placeholder="e.g. 70">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Q7 -->
+                    <div id="qBox_7" class="q-card bg-white rounded-xl border border-slate-200 p-4 shadow-sm flex items-start gap-3">
+                        <div class="pt-0.5 text-slate-300 status-icon" data-qid="7"><i class="fa-solid fa-circle-check text-lg"></i></div>
+                        <div class="flex-1 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                            <label class="text-sm font-medium text-slate-800 flex-1">7. Have you ever been diagnosed by a health professional with a musculoskeletal/spinal condition that may cause pain?</label>
+                            <div class="flex gap-3 w-full sm:w-auto">
+                                <label class="flex items-center space-x-2 text-xs font-medium cursor-pointer bg-slate-50 px-3.5 py-2 rounded-lg border border-slate-200 hover:bg-slate-100">
+                                    <input type="radio" name="secDiag" value="Yes" required class="tracker-input text-[#168582]">
+                                    <span>Yes</span>
+                                </label>
+                                <label class="flex items-center space-x-2 text-xs font-medium cursor-pointer bg-slate-50 px-3.5 py-2 rounded-lg border border-slate-200 hover:bg-slate-100">
+                                    <input type="radio" name="secDiag" value="No" class="tracker-input text-[#168582]">
+                                    <span>No</span>
+                                </label>
+                                <label class="flex items-center space-x-2 text-xs font-medium cursor-pointer bg-slate-50 px-3.5 py-2 rounded-lg border border-slate-200 hover:bg-slate-100">
+                                    <input type="radio" name="secDiag" value="Unsure" class="tracker-input text-[#168582]">
+                                    <span>Unsure</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Q8 -->
+                    <div id="qBox_8" class="q-card bg-white rounded-xl border border-slate-200 p-4 shadow-sm flex items-start gap-3">
+                        <div class="pt-0.5 text-slate-300 status-icon" data-qid="8"><i class="fa-solid fa-circle-check text-lg"></i></div>
+                        <div class="flex-1 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                            <label class="text-sm font-medium text-slate-800 flex-1">8. Have you had a significant neck, back, shoulder or upper-limb injury/trauma before this study?</label>
+                            <div class="flex gap-3 w-full sm:w-auto">
+                                <label class="flex items-center space-x-2 text-xs font-medium cursor-pointer bg-slate-50 px-3.5 py-2 rounded-lg border border-slate-200 hover:bg-slate-100">
+                                    <input type="radio" name="secInjury" value="Yes" required class="tracker-input text-[#168582]">
+                                    <span>Yes</span>
+                                </label>
+                                <label class="flex items-center space-x-2 text-xs font-medium cursor-pointer bg-slate-50 px-3.5 py-2 rounded-lg border border-slate-200 hover:bg-slate-100">
+                                    <input type="radio" name="secInjury" value="No" class="tracker-input text-[#168582]">
+                                    <span>No</span>
+                                </label>
+                                <label class="flex items-center space-x-2 text-xs font-medium cursor-pointer bg-slate-50 px-3.5 py-2 rounded-lg border border-slate-200 hover:bg-slate-100">
+                                    <input type="radio" name="secInjury" value="Unsure" class="tracker-input text-[#168582]">
+                                    <span>Unsure</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 sm:p-8 space-y-6">
+                <div class="flex items-center space-x-3 pb-4 border-b border-slate-100">
+                    <div class="bg-teal-50 text-[#168582] w-8 h-8 rounded-full flex items-center justify-center font-bold text-sm">2</div>
+                    <div>
+                        <h2 class="text-lg font-semibold text-slate-900">SECTION B — STUDY, SITTING AND BREAK PATTERNS</h2>
+                        <p class="text-xs text-slate-500">Provide details regarding your daily study and sitting habits</p>
+                    </div>
+                </div>
+
+                <div class="space-y-4">
+                    <!-- Q9 -->
+                    <div id="qBox_9" class="q-card bg-white rounded-xl border border-slate-200 p-4 shadow-sm flex items-start gap-3">
+                        <div class="pt-0.5 text-slate-300 status-icon" data-qid="9"><i class="fa-solid fa-circle-check text-lg"></i></div>
+                        <div class="flex-1 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                            <label class="text-sm font-medium text-slate-800 flex-1">9. On an average day, how many hours do you study outside scheduled classes?</label>
+                            <div class="w-full sm:w-48 flex items-center space-x-2">
+                                <input type="number" id="secQ9" required min="0" max="24" step="0.5" class="tracker-input w-full px-3.5 py-2 rounded-xl border border-slate-300 focus:ring-2 focus:ring-[#168582] focus:border-[#168582] outline-none text-sm transition" placeholder="e.g. 4">
+                                <span class="text-xs text-slate-500 font-medium whitespace-nowrap">hours/day</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Q10 -->
+                    <div id="qBox_10" class="q-card bg-white rounded-xl border border-slate-200 p-4 shadow-sm flex items-start gap-3">
+                        <div class="pt-0.5 text-slate-300 status-icon" data-qid="10"><i class="fa-solid fa-circle-check text-lg"></i></div>
+                        <div class="flex-1 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                            <label class="text-sm font-medium text-slate-800 flex-1">10. On how many days per week do you usually study outside scheduled classes?</label>
+                            <div class="w-full sm:w-48 flex items-center space-x-2">
+                                <input type="number" id="secQ10" required min="0" max="7" class="tracker-input w-full px-3.5 py-2 rounded-xl border border-slate-300 focus:ring-2 focus:ring-[#168582] focus:border-[#168582] outline-none text-sm transition" placeholder="e.g. 6">
+                                <span class="text-xs text-slate-500 font-medium whitespace-nowrap">days/week</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Q11 -->
+                    <div id="qBox_11" class="q-card bg-white rounded-xl border border-slate-200 p-4 shadow-sm flex items-start gap-3">
+                        <div class="pt-0.5 text-slate-300 status-icon" data-qid="11"><i class="fa-solid fa-circle-check text-lg"></i></div>
+                        <div class="flex-1 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                            <label class="text-sm font-medium text-slate-800 flex-1">11. On an average day, how many hours do you spend sitting while studying?</label>
+                            <div class="w-full sm:w-48 flex items-center space-x-2">
+                                <input type="number" id="secQ11" required min="0" max="24" step="0.5" class="tracker-input w-full px-3.5 py-2 rounded-xl border border-slate-300 focus:ring-2 focus:ring-[#168582] focus:border-[#168582] outline-none text-sm transition" placeholder="e.g. 5">
+                                <span class="text-xs text-slate-500 font-medium whitespace-nowrap">hours/day</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Q12 -->
+                    <div id="qBox_12" class="q-card bg-white rounded-xl border border-slate-200 p-4 shadow-sm flex items-start gap-3">
+                        <div class="pt-0.5 text-slate-300 status-icon" data-qid="12"><i class="fa-solid fa-circle-check text-lg"></i></div>
+                        <div class="flex-1 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                            <label class="text-sm font-medium text-slate-800 flex-1">12. What is the longest period you usually remain seated without standing/walking during study?</label>
+                            <div class="w-full sm:w-48 flex items-center space-x-2">
+                                <input type="number" id="secQ12" required min="0" max="600" class="tracker-input w-full px-3.5 py-2 rounded-xl border border-slate-300 focus:ring-2 focus:ring-[#168582] focus:border-[#168582] outline-none text-sm transition" placeholder="e.g. 90">
+                                <span class="text-xs text-slate-500 font-medium whitespace-nowrap">minutes</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Q13 -->
+                    <div id="qBox_13" class="q-card bg-white rounded-xl border border-slate-200 p-4 shadow-sm flex items-start gap-3">
+                        <div class="pt-0.5 text-slate-300 status-icon" data-qid="13"><i class="fa-solid fa-circle-check text-lg"></i></div>
+                        <div class="flex-1 flex flex-col gap-2">
+                            <label class="text-sm font-medium text-slate-800">13. During a typical study session, how often do you stand/walk for at least 2-3 minutes?</label>
+                            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2.5 pt-1">
+                                <label class="flex items-center space-x-2 text-xs font-medium cursor-pointer bg-slate-50 px-3 py-2.5 rounded-lg border border-slate-200 hover:bg-slate-100">
+                                    <input type="radio" name="secQ13" value="Every <30 min" required class="tracker-input text-[#168582]">
+                                    <span>Every &lt;30 min</span>
+                                </label>
+                                <label class="flex items-center space-x-2 text-xs font-medium cursor-pointer bg-slate-50 px-3 py-2.5 rounded-lg border border-slate-200 hover:bg-slate-100">
+                                    <input type="radio" name="secQ13" value="Every 30-60 min" class="tracker-input text-[#168582]">
+                                    <span>Every 30-60 min</span>
+                                </label>
+                                <label class="flex items-center space-x-2 text-xs font-medium cursor-pointer bg-slate-50 px-3 py-2.5 rounded-lg border border-slate-200 hover:bg-slate-100">
+                                    <input type="radio" name="secQ13" value="Every 61-120 min" class="tracker-input text-[#168582]">
+                                    <span>Every 61-120 min</span>
+                                </label>
+                                <label class="flex items-center space-x-2 text-xs font-medium cursor-pointer bg-slate-50 px-3 py-2.5 rounded-lg border border-slate-200 hover:bg-slate-100">
+                                    <input type="radio" name="secQ13" value="Less often than every 2 h" class="tracker-input text-[#168582]">
+                                    <span>Less often than every 2 h</span>
+                                </label>
+                                <label class="flex items-center space-x-2 text-xs font-medium cursor-pointer bg-slate-50 px-3 py-2.5 rounded-lg border border-slate-200 hover:bg-slate-100">
+                                    <input type="radio" name="secQ13" value="Rarely/never" class="tracker-input text-[#168582]">
+                                    <span>Rarely/never</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Q14 -->
+                    <div id="qBox_14" class="q-card bg-white rounded-xl border border-slate-200 p-4 shadow-sm flex items-start gap-3">
+                        <div class="pt-0.5 text-slate-300 status-icon" data-qid="14"><i class="fa-solid fa-circle-check text-lg"></i></div>
+                        <div class="flex-1 flex flex-col gap-2">
+                            <label class="text-sm font-medium text-slate-800">14. During long study sessions, do you intentionally take movement/stretching breaks?</label>
+                            <div class="flex flex-wrap gap-2.5 pt-1">
+                                <label class="flex items-center space-x-2 text-xs font-medium cursor-pointer bg-slate-50 px-3.5 py-2.5 rounded-lg border border-slate-200 hover:bg-slate-100">
+                                    <input type="radio" name="secQ14" value="Always" required class="tracker-input text-[#168582]">
+                                    <span>Always</span>
+                                </label>
+                                <label class="flex items-center space-x-2 text-xs font-medium cursor-pointer bg-slate-50 px-3.5 py-2.5 rounded-lg border border-slate-200 hover:bg-slate-100">
+                                    <input type="radio" name="secQ14" value="Often" class="tracker-input text-[#168582]">
+                                    <span>Often</span>
+                                </label>
+                                <label class="flex items-center space-x-2 text-xs font-medium cursor-pointer bg-slate-50 px-3.5 py-2.5 rounded-lg border border-slate-200 hover:bg-slate-100">
+                                    <input type="radio" name="secQ14" value="Sometimes" class="tracker-input text-[#168582]">
+                                    <span>Sometimes</span>
+                                </label>
+                                <label class="flex items-center space-x-2 text-xs font-medium cursor-pointer bg-slate-50 px-3.5 py-2.5 rounded-lg border border-slate-200 hover:bg-slate-100">
+                                    <input type="radio" name="secQ14" value="Rarely" class="tracker-input text-[#168582]">
+                                    <span>Rarely</span>
+                                </label>
+                                <label class="flex items-center space-x-2 text-xs font-medium cursor-pointer bg-slate-50 px-3.5 py-2.5 rounded-lg border border-slate-200 hover:bg-slate-100">
+                                    <input type="radio" name="secQ14" value="Never" class="tracker-input text-[#168582]">
+                                    <span>Never</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 sm:p-8 space-y-6">
+                <div class="flex items-center space-x-3 pb-4 border-b border-slate-100">
+                    <div class="bg-teal-50 text-[#168582] w-8 h-8 rounded-full flex items-center justify-center font-bold text-sm">3</div>
+                    <div>
+                        <h2 class="text-lg font-semibold text-slate-900">SECTION C — DIGITAL-DEVICE EXPOSURE</h2>
+                        <p class="text-xs text-slate-500">Provide details on your device usage and posture habits</p>
+                    </div>
+                </div>
+
+                <div class="space-y-4">
+                    <!-- Q15 -->
+                    <div id="qBox_15" class="q-card bg-white rounded-xl border border-slate-200 p-4 shadow-sm flex items-start gap-3">
+                        <div class="pt-0.5 text-slate-300 status-icon" data-qid="15"><i class="fa-solid fa-circle-check text-lg"></i></div>
+                        <div class="flex-1 flex flex-col gap-2">
+                            <label class="text-sm font-medium text-slate-800">15. Which device do you use most often for academic study?</label>
+                            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2.5 pt-1">
+                                <label class="flex items-center space-x-2 text-xs font-medium cursor-pointer bg-slate-50 px-3 py-2.5 rounded-lg border border-slate-200 hover:bg-slate-100">
+                                    <input type="radio" name="secQ15" value="Printed books" required class="tracker-input text-[#168582]">
+                                    <span>Printed books</span>
+                                </label>
+                                <label class="flex items-center space-x-2 text-xs font-medium cursor-pointer bg-slate-50 px-3 py-2.5 rounded-lg border border-slate-200 hover:bg-slate-100">
+                                    <input type="radio" name="secQ15" value="Laptop" class="tracker-input text-[#168582]">
+                                    <span>Laptop</span>
+                                </label>
+                                <label class="flex items-center space-x-2 text-xs font-medium cursor-pointer bg-slate-50 px-3 py-2.5 rounded-lg border border-slate-200 hover:bg-slate-100">
+                                    <input type="radio" name="secQ15" value="Desktop computer" class="tracker-input text-[#168582]">
+                                    <span>Desktop computer</span>
+                                </label>
+                                <label class="flex items-center space-x-2 text-xs font-medium cursor-pointer bg-slate-50 px-3 py-2.5 rounded-lg border border-slate-200 hover:bg-slate-100">
+                                    <input type="radio" name="secQ15" value="Tablet" class="tracker-input text-[#168582]">
+                                    <span>Tablet</span>
+                                </label>
+                                <label class="flex items-center space-x-2 text-xs font-medium cursor-pointer bg-slate-50 px-3 py-2.5 rounded-lg border border-slate-200 hover:bg-slate-100">
+                                    <input type="radio" name="secQ15" value="Smartphone" class="tracker-input text-[#168582]">
+                                    <span>Smartphone</span>
+                                </label>
+                                <label class="flex items-center space-x-2 text-xs font-medium cursor-pointer bg-slate-50 px-3 py-2.5 rounded-lg border border-slate-200 hover:bg-slate-100">
+                                    <input type="radio" name="secQ15" value="Combination/no single device" class="tracker-input text-[#168582]">
+                                    <span>Combination/no single device</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Q16 -->
+                    <div id="qBox_16" class="q-card bg-white rounded-xl border border-slate-200 p-4 shadow-sm flex items-start gap-3">
+                        <div class="pt-0.5 text-slate-300 status-icon" data-qid="16"><i class="fa-solid fa-circle-check text-lg"></i></div>
+                        <div class="flex-1 flex flex-col gap-3">
+                            <label class="text-sm font-medium text-slate-800">16. Approximate academic-use time per day:</label>
+                            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+                                <div class="flex items-center space-x-2 bg-slate-50 p-2.5 rounded-xl border border-slate-200">
+                                    <span class="text-xs text-slate-600 font-medium flex-1">Smartphone</span>
+                                    <input type="number" id="secQ16_phone" min="0" max="24" step="0.5" class="tracker-input w-16 px-2 py-1 text-xs rounded-lg border border-slate-300 outline-none text-center" placeholder="0">
+                                    <span class="text-xs text-slate-500">h</span>
+                                </div>
+                                <div class="flex items-center space-x-2 bg-slate-50 p-2.5 rounded-xl border border-slate-200">
+                                    <span class="text-xs text-slate-600 font-medium flex-1">Tablet</span>
+                                    <input type="number" id="secQ16_tablet" min="0" max="24" step="0.5" class="tracker-input w-16 px-2 py-1 text-xs rounded-lg border border-slate-300 outline-none text-center" placeholder="0">
+                                    <span class="text-xs text-slate-500">h</span>
+                                </div>
+                                <div class="flex items-center space-x-2 bg-slate-50 p-2.5 rounded-xl border border-slate-200">
+                                    <span class="text-xs text-slate-600 font-medium flex-1">Laptop/Desktop</span>
+                                    <input type="number" id="secQ16_pc" min="0" max="24" step="0.5" class="tracker-input w-16 px-2 py-1 text-xs rounded-lg border border-slate-300 outline-none text-center" placeholder="0">
+                                    <span class="text-xs text-slate-500">h</span>
+                                </div>
+                                <div class="flex items-center space-x-2 bg-slate-50 p-2.5 rounded-xl border border-slate-200">
+                                    <span class="text-xs text-slate-600 font-medium flex-1">Other Device</span>
+                                    <input type="number" id="secQ16_other" min="0" max="24" step="0.5" class="tracker-input w-16 px-2 py-1 text-xs rounded-lg border border-slate-300 outline-none text-center" placeholder="0">
+                                    <span class="text-xs text-slate-500">h</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Q17 -->
+                    <div id="qBox_17" class="q-card bg-white rounded-xl border border-slate-200 p-4 shadow-sm flex items-start gap-3">
+                        <div class="pt-0.5 text-slate-300 status-icon" data-qid="17"><i class="fa-solid fa-circle-check text-lg"></i></div>
+                        <div class="flex-1 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                            <label class="text-sm font-medium text-slate-800 flex-1">17. Approximate non-academic screen time per day (social media, video, gaming, browsing, messaging, etc.):</label>
+                            <div class="w-full sm:w-48 flex items-center space-x-2">
+                                <input type="number" id="secQ17" required min="0" max="24" step="0.5" class="tracker-input w-full px-3.5 py-2 rounded-xl border border-slate-300 focus:ring-2 focus:ring-[#168582] focus:border-[#168582] outline-none text-sm transition" placeholder="e.g. 3">
+                                <span class="text-xs text-slate-500 font-medium whitespace-nowrap">hours/day</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Q18 -->
+                    <div id="qBox_18" class="q-card bg-white rounded-xl border border-slate-200 p-4 shadow-sm flex items-start gap-3">
+                        <div class="pt-0.5 text-slate-300 status-icon" data-qid="18"><i class="fa-solid fa-circle-check text-lg"></i></div>
+                        <div class="flex-1 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                            <label class="text-sm font-medium text-slate-800 flex-1">18. What is your longest continuous period of smartphone/laptop/tablet/computer use without a movement break?</label>
+                            <div class="w-full sm:w-48 flex items-center space-x-2">
+                                <input type="number" id="secQ18" required min="0" max="600" class="tracker-input w-full px-3.5 py-2 rounded-xl border border-slate-300 focus:ring-2 focus:ring-[#168582] focus:border-[#168582] outline-none text-sm transition" placeholder="e.g. 120">
+                                <span class="text-xs text-slate-500 font-medium whitespace-nowrap">minutes</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Q19 -->
+                    <div id="qBox_19" class="q-card bg-white rounded-xl border border-slate-200 p-4 shadow-sm flex items-start gap-3">
+                        <div class="pt-0.5 text-slate-300 status-icon" data-qid="19"><i class="fa-solid fa-circle-check text-lg"></i></div>
+                        <div class="flex-1 flex flex-col gap-2">
+                            <label class="text-sm font-medium text-slate-800">19. During device use, how often do you use the device while lying/reclining on a bed or sofa?</label>
+                            <div class="flex flex-wrap gap-2.5 pt-1">
+                                <label class="flex items-center space-x-2 text-xs font-medium cursor-pointer bg-slate-50 px-3.5 py-2.5 rounded-lg border border-slate-200 hover:bg-slate-100">
+                                    <input type="radio" name="secQ19" value="Never" required class="tracker-input text-[#168582]">
+                                    <span>Never</span>
+                                </label>
+                                <label class="flex items-center space-x-2 text-xs font-medium cursor-pointer bg-slate-50 px-3.5 py-2.5 rounded-lg border border-slate-200 hover:bg-slate-100">
+                                    <input type="radio" name="secQ19" value="Rarely" class="tracker-input text-[#168582]">
+                                    <span>Rarely</span>
+                                </label>
+                                <label class="flex items-center space-x-2 text-xs font-medium cursor-pointer bg-slate-50 px-3.5 py-2.5 rounded-lg border border-slate-200 hover:bg-slate-100">
+                                    <input type="radio" name="secQ19" value="Sometimes" class="tracker-input text-[#168582]">
+                                    <span>Sometimes</span>
+                                </label>
+                                <label class="flex items-center space-x-2 text-xs font-medium cursor-pointer bg-slate-50 px-3.5 py-2.5 rounded-lg border border-slate-200 hover:bg-slate-100">
+                                    <input type="radio" name="secQ19" value="Often" class="tracker-input text-[#168582]">
+                                    <span>Often</span>
+                                </label>
+                                <label class="flex items-center space-x-2 text-xs font-medium cursor-pointer bg-slate-50 px-3.5 py-2.5 rounded-lg border border-slate-200 hover:bg-slate-100">
+                                    <input type="radio" name="secQ19" value="Almost always" class="tracker-input text-[#168582]">
+                                    <span>Almost always</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Q20 -->
+                    <div id="qBox_20" class="q-card bg-white rounded-xl border border-slate-200 p-4 shadow-sm flex items-start gap-3">
+                        <div class="pt-0.5 text-slate-300 status-icon" data-qid="20"><i class="fa-solid fa-circle-check text-lg"></i></div>
+                        <div class="flex-1 flex flex-col gap-2">
+                            <label class="text-sm font-medium text-slate-800">20. When using a phone for prolonged periods, how often is the phone held below eye/chest level so that you look downward?</label>
+                            <div class="flex flex-wrap gap-2.5 pt-1">
+                                <label class="flex items-center space-x-2 text-xs font-medium cursor-pointer bg-slate-50 px-3.5 py-2.5 rounded-lg border border-slate-200 hover:bg-slate-100">
+                                    <input type="radio" name="secQ20" value="Never" required class="tracker-input text-[#168582]">
+                                    <span>Never</span>
+                                </label>
+                                <label class="flex items-center space-x-2 text-xs font-medium cursor-pointer bg-slate-50 px-3.5 py-2.5 rounded-lg border border-slate-200 hover:bg-slate-100">
+                                    <input type="radio" name="secQ20" value="Rarely" class="tracker-input text-[#168582]">
+                                    <span>Rarely</span>
+                                </label>
+                                <label class="flex items-center space-x-2 text-xs font-medium cursor-pointer bg-slate-50 px-3.5 py-2.5 rounded-lg border border-slate-200 hover:bg-slate-100">
+                                    <input type="radio" name="secQ20" value="Sometimes" class="tracker-input text-[#168582]">
+                                    <span>Sometimes</span>
+                                </label>
+                                <label class="flex items-center space-x-2 text-xs font-medium cursor-pointer bg-slate-50 px-3.5 py-2.5 rounded-lg border border-slate-200 hover:bg-slate-100">
+                                    <input type="radio" name="secQ20" value="Often" class="tracker-input text-[#168582]">
+                                    <span>Often</span>
+                                </label>
+                                <label class="flex items-center space-x-2 text-xs font-medium cursor-pointer bg-slate-50 px-3.5 py-2.5 rounded-lg border border-slate-200 hover:bg-slate-100">
+                                    <input type="radio" name="secQ20" value="Almost always" class="tracker-input text-[#168582]">
+                                    <span>Almost always</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 sm:p-8 space-y-6">
+                <div class="flex items-center space-x-3 pb-4 border-b border-slate-100">
+                    <div class="bg-teal-50 text-[#168582] w-8 h-8 rounded-full flex items-center justify-center font-bold text-sm">4</div>
+                    <div>
+                        <h2 class="text-lg font-semibold text-slate-900">SECTION D — ERGONOMIC AND POSTURAL BEHAVIORS</h2>
+                        <p class="text-xs text-slate-500">Provide details on your ergonomic setup and posture</p>
+                    </div>
+                </div>
+
+                <div class="space-y-4">
+                    <!-- Q21 -->
+                    <div id="qBox_21" class="q-card bg-white rounded-xl border border-slate-200 p-4 shadow-sm flex items-start gap-3">
+                        <div class="pt-0.5 text-slate-300 status-icon" data-qid="21"><i class="fa-solid fa-circle-check text-lg"></i></div>
+                        <div class="flex-1 flex flex-col gap-2">
+                            <label class="text-sm font-medium text-slate-800">21. Where do you most commonly study?</label>
+                            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2.5 pt-1">
+                                <label class="flex items-center space-x-2 text-xs font-medium cursor-pointer bg-slate-50 px-3.5 py-2.5 rounded-lg border border-slate-200 hover:bg-slate-100">
+                                    <input type="radio" name="secQ21" value="Desk/table + chair" required class="tracker-input text-[#168582]">
+                                    <span>Desk/table + chair</span>
+                                </label>
+                                <label class="flex items-center space-x-2 text-xs font-medium cursor-pointer bg-slate-50 px-3.5 py-2.5 rounded-lg border border-slate-200 hover:bg-slate-100">
+                                    <input type="radio" name="secQ21" value="Bed" class="tracker-input text-[#168582]">
+                                    <span>Bed</span>
+                                </label>
+                                <label class="flex items-center space-x-2 text-xs font-medium cursor-pointer bg-slate-50 px-3.5 py-2.5 rounded-lg border border-slate-200 hover:bg-slate-100">
+                                    <input type="radio" name="secQ21" value="Sofa" class="tracker-input text-[#168582]">
+                                    <span>Sofa</span>
+                                </label>
+                                <label class="flex items-center space-x-2 text-xs font-medium cursor-pointer bg-slate-50 px-3.5 py-2.5 rounded-lg border border-slate-200 hover:bg-slate-100">
+                                    <input type="radio" name="secQ21" value="Floor" class="tracker-input text-[#168582]">
+                                    <span>Floor</span>
+                                </label>
+                                <label class="flex items-center space-x-2 text-xs font-medium cursor-pointer bg-slate-50 px-3.5 py-2.5 rounded-lg border border-slate-200 hover:bg-slate-100 sm:col-span-2">
+                                    <input type="radio" name="secQ21" value="Other" class="tracker-input text-[#168582]">
+                                    <span>Other:</span>
+                                    <input type="text" id="secQ21_other_text" placeholder="Please specify" class="tracker-input ml-2 px-2 py-1 text-xs border border-slate-300 rounded-lg flex-1 outline-none">
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Q22 -->
+                    <div id="qBox_22" class="q-card bg-white rounded-xl border border-slate-200 p-4 shadow-sm flex items-start gap-3">
+                        <div class="pt-0.5 text-slate-300 status-icon" data-qid="22"><i class="fa-solid fa-circle-check text-lg"></i></div>
+                        <div class="flex-1 flex flex-col gap-2">
+                            <label class="text-sm font-medium text-slate-800">22. Does your usual study chair provide back support?</label>
+                            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2.5 pt-1">
+                                <label class="flex items-center space-x-2 text-xs font-medium cursor-pointer bg-slate-50 px-3.5 py-2.5 rounded-lg border border-slate-200 hover:bg-slate-100">
+                                    <input type="radio" name="secQ22" value="Always" required class="tracker-input text-[#168582]">
+                                    <span>Always</span>
+                                </label>
+                                <label class="flex items-center space-x-2 text-xs font-medium cursor-pointer bg-slate-50 px-3.5 py-2.5 rounded-lg border border-slate-200 hover:bg-slate-100">
+                                    <input type="radio" name="secQ22" value="Often" class="tracker-input text-[#168582]">
+                                    <span>Often</span>
+                                </label>
+                                <label class="flex items-center space-x-2 text-xs font-medium cursor-pointer bg-slate-50 px-3.5 py-2.5 rounded-lg border border-slate-200 hover:bg-slate-100">
+                                    <input type="radio" name="secQ22" value="Sometimes" class="tracker-input text-[#168582]">
+                                    <span>Sometimes</span>
+                                </label>
+                                <label class="flex items-center space-x-2 text-xs font-medium cursor-pointer bg-slate-50 px-3.5 py-2.5 rounded-lg border border-slate-200 hover:bg-slate-100">
+                                    <input type="radio" name="secQ22" value="Rarely" class="tracker-input text-[#168582]">
+                                    <span>Rarely</span>
+                                </label>
+                                <label class="flex items-center space-x-2 text-xs font-medium cursor-pointer bg-slate-50 px-3.5 py-2.5 rounded-lg border border-slate-200 hover:bg-slate-100 sm:col-span-2">
+                                    <input type="radio" name="secQ22" value="Never / I do not use a chair" class="tracker-input text-[#168582]">
+                                    <span>Never / I do not use a chair</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Q23 -->
+                    <div id="qBox_23" class="q-card bg-white rounded-xl border border-slate-200 p-4 shadow-sm flex items-start gap-3">
+                        <div class="pt-0.5 text-slate-300 status-icon" data-qid="23"><i class="fa-solid fa-circle-check text-lg"></i></div>
+                        <div class="flex-1 flex flex-col gap-2">
+                            <label class="text-sm font-medium text-slate-800">23. Is the screen of your main study device approximately at eye level when you use it?</label>
+                            <div class="flex flex-wrap gap-2.5 pt-1">
+                                <label class="flex items-center space-x-2 text-xs font-medium cursor-pointer bg-slate-50 px-3.5 py-2.5 rounded-lg border border-slate-200 hover:bg-slate-100">
+                                    <input type="radio" name="secQ23" value="Always" required class="tracker-input text-[#168582]">
+                                    <span>Always</span>
+                                </label>
+                                <label class="flex items-center space-x-2 text-xs font-medium cursor-pointer bg-slate-50 px-3.5 py-2.5 rounded-lg border border-slate-200 hover:bg-slate-100">
+                                    <input type="radio" name="secQ23" value="Often" class="tracker-input text-[#168582]">
+                                    <span>Often</span>
+                                </label>
+                                <label class="flex items-center space-x-2 text-xs font-medium cursor-pointer bg-slate-50 px-3.5 py-2.5 rounded-lg border border-slate-200 hover:bg-slate-100">
+                                    <input type="radio" name="secQ23" value="Sometimes" class="tracker-input text-[#168582]">
+                                    <span>Sometimes</span>
+                                </label>
+                                <label class="flex items-center space-x-2 text-xs font-medium cursor-pointer bg-slate-50 px-3.5 py-2.5 rounded-lg border border-slate-200 hover:bg-slate-100">
+                                    <input type="radio" name="secQ23" value="Rarely" class="tracker-input text-[#168582]">
+                                    <span>Rarely</span>
+                                </label>
+                                <label class="flex items-center space-x-2 text-xs font-medium cursor-pointer bg-slate-50 px-3.5 py-2.5 rounded-lg border border-slate-200 hover:bg-slate-100">
+                                    <input type="radio" name="secQ23" value="Never" class="tracker-input text-[#168582]">
+                                    <span>Never</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Q24 -->
+                    <div id="qBox_24" class="q-card bg-white rounded-xl border border-slate-200 p-4 shadow-sm flex items-start gap-3">
+                        <div class="pt-0.5 text-slate-300 status-icon" data-qid="24"><i class="fa-solid fa-circle-check text-lg"></i></div>
+                        <div class="flex-1 flex flex-col gap-2">
+                            <label class="text-sm font-medium text-slate-800">24. How often do you study with your head/neck bent forward for prolonged periods?</label>
+                            <div class="flex flex-wrap gap-2.5 pt-1">
+                                <label class="flex items-center space-x-2 text-xs font-medium cursor-pointer bg-slate-50 px-3.5 py-2.5 rounded-lg border border-slate-200 hover:bg-slate-100">
+                                    <input type="radio" name="secQ24" value="Never" required class="tracker-input text-[#168582]">
+                                    <span>Never</span>
+                                </label>
+                                <label class="flex items-center space-x-2 text-xs font-medium cursor-pointer bg-slate-50 px-3.5 py-2.5 rounded-lg border border-slate-200 hover:bg-slate-100">
+                                    <input type="radio" name="secQ24" value="Rarely" class="tracker-input text-[#168582]">
+                                    <span>Rarely</span>
+                                </label>
+                                <label class="flex items-center space-x-2 text-xs font-medium cursor-pointer bg-slate-50 px-3.5 py-2.5 rounded-lg border border-slate-200 hover:bg-slate-100">
+                                    <input type="radio" name="secQ24" value="Sometimes" class="tracker-input text-[#168582]">
+                                    <span>Sometimes</span>
+                                </label>
+                                <label class="flex items-center space-x-2 text-xs font-medium cursor-pointer bg-slate-50 px-3.5 py-2.5 rounded-lg border border-slate-200 hover:bg-slate-100">
+                                    <input type="radio" name="secQ24" value="Often" class="tracker-input text-[#168582]">
+                                    <span>Often</span>
+                                </label>
+                                <label class="flex items-center space-x-2 text-xs font-medium cursor-pointer bg-slate-50 px-3.5 py-2.5 rounded-lg border border-slate-200 hover:bg-slate-100">
+                                    <input type="radio" name="secQ24" value="Almost always" class="tracker-input text-[#168582]">
+                                    <span>Almost always</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Q25 -->
+                    <div id="qBox_25" class="q-card bg-white rounded-xl border border-slate-200 p-4 shadow-sm flex items-start gap-3">
+                        <div class="pt-0.5 text-slate-300 status-icon" data-qid="25"><i class="fa-solid fa-circle-check text-lg"></i></div>
+                        <div class="flex-1 flex flex-col gap-2">
+                            <label class="text-sm font-medium text-slate-800">25. How often do you study in a visibly hunched/slouched trunk position?</label>
+                            <div class="flex flex-wrap gap-2.5 pt-1">
+                                <label class="flex items-center space-x-2 text-xs font-medium cursor-pointer bg-slate-50 px-3.5 py-2.5 rounded-lg border border-slate-200 hover:bg-slate-100">
+                                    <input type="radio" name="secQ25" value="Never" required class="tracker-input text-[#168582]">
+                                    <span>Never</span>
+                                </label>
+                                <label class="flex items-center space-x-2 text-xs font-medium cursor-pointer bg-slate-50 px-3.5 py-2.5 rounded-lg border border-slate-200 hover:bg-slate-100">
+                                    <input type="radio" name="secQ25" value="Rarely" class="tracker-input text-[#168582]">
+                                    <span>Rarely</span>
+                                </label>
+                                <label class="flex items-center space-x-2 text-xs font-medium cursor-pointer bg-slate-50 px-3.5 py-2.5 rounded-lg border border-slate-200 hover:bg-slate-100">
+                                    <input type="radio" name="secQ25" value="Sometimes" class="tracker-input text-[#168582]">
+                                    <span>Sometimes</span>
+                                </label>
+                                <label class="flex items-center space-x-2 text-xs font-medium cursor-pointer bg-slate-50 px-3.5 py-2.5 rounded-lg border border-slate-200 hover:bg-slate-100">
+                                    <input type="radio" name="secQ25" value="Often" class="tracker-input text-[#168582]">
+                                    <span>Often</span>
+                                </label>
+                                <label class="flex items-center space-x-2 text-xs font-medium cursor-pointer bg-slate-50 px-3.5 py-2.5 rounded-lg border border-slate-200 hover:bg-slate-100">
+                                    <input type="radio" name="secQ25" value="Almost always" class="tracker-input text-[#168582]">
+                                    <span>Almost always</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Q26 -->
+                    <div id="qBox_26" class="q-card bg-white rounded-xl border border-slate-200 p-4 shadow-sm flex items-start gap-3">
+                        <div class="pt-0.5 text-slate-300 status-icon" data-qid="26"><i class="fa-solid fa-circle-check text-lg"></i></div>
+                        <div class="flex-1 flex flex-col gap-2">
+                            <label class="text-sm font-medium text-slate-800">26. How often do you change your sitting position during a study session?</label>
+                            <div class="flex flex-wrap gap-2.5 pt-1">
+                                <label class="flex items-center space-x-2 text-xs font-medium cursor-pointer bg-slate-50 px-3.5 py-2.5 rounded-lg border border-slate-200 hover:bg-slate-100">
+                                    <input type="radio" name="secQ26" value="Very often" required class="tracker-input text-[#168582]">
+                                    <span>Very often</span>
+                                </label>
+                                <label class="flex items-center space-x-2 text-xs font-medium cursor-pointer bg-slate-50 px-3.5 py-2.5 rounded-lg border border-slate-200 hover:bg-slate-100">
+                                    <input type="radio" name="secQ26" value="Often" class="tracker-input text-[#168582]">
+                                    <span>Often</span>
+                                </label>
+                                <label class="flex items-center space-x-2 text-xs font-medium cursor-pointer bg-slate-50 px-3.5 py-2.5 rounded-lg border border-slate-200 hover:bg-slate-100">
+                                    <input type="radio" name="secQ26" value="Sometimes" class="tracker-input text-[#168582]">
+                                    <span>Sometimes</span>
+                                </label>
+                                <label class="flex items-center space-x-2 text-xs font-medium cursor-pointer bg-slate-50 px-3.5 py-2.5 rounded-lg border border-slate-200 hover:bg-slate-100">
+                                    <input type="radio" name="secQ26" value="Rarely" class="tracker-input text-[#168582]">
+                                    <span>Rarely</span>
+                                </label>
+                                <label class="flex items-center space-x-2 text-xs font-medium cursor-pointer bg-slate-50 px-3.5 py-2.5 rounded-lg border border-slate-200 hover:bg-slate-100">
+                                    <input type="radio" name="secQ26" value="Never" class="tracker-input text-[#168582]">
+                                    <span>Never</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 sm:p-8 space-y-6">
+                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center pb-4 border-b border-slate-100 gap-2">
+                    <div class="flex items-center space-x-3">
+                        <div class="bg-teal-50 text-[#168582] w-8 h-8 rounded-full flex items-center justify-center font-bold text-sm">5</div>
+                        <div>
+                            <h2 class="text-lg font-semibold text-slate-900">SECTION E — ANATOMICAL BODY PAIN MAPPING</h2>
+                            <p class="text-xs text-slate-500">Complete each section to automatically unlock the next domain</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <button type="button" id="noPainAnywhereBtn" class="px-3 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-semibold rounded-lg transition border border-slate-300">
+                            <i class="fa-solid fa-ban text-red-500 mr-1"></i> No Pain Anywhere
+                        </button>
+                        <button type="button" id="resetMapBtn" class="px-3 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-semibold rounded-lg transition border border-slate-300">
+                            <i class="fa-solid fa-rotate-left mr-1"></i> Reset
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Progressive Domain Tabs -->
+                <div class="flex flex-wrap gap-2 border-b border-slate-200 pb-3" id="domainTabsContainer">
+                    <button type="button" data-domain="twelveMonths" class="domain-tab px-4 py-2 text-xs font-semibold rounded-xl transition theme-bg text-white shadow-sm flex items-center gap-2">
+                        <span>1. Symptoms (Last 12 Months)</span>
+                        <i id="tabIcon_twelveMonths" class="fa-solid fa-lock-open text-emerald-300"></i>
+                    </button>
+                    <button type="button" data-domain="sevenDays" class="domain-tab px-4 py-2 text-xs font-semibold rounded-xl transition bg-slate-100 text-slate-400 cursor-not-allowed flex items-center gap-2" disabled>
+                        <span>2. Symptoms (Last 7 Days)</span>
+                        <i id="tabIcon_sevenDays" class="fa-solid fa-lock text-slate-400"></i>
+                    </button>
+                    <button type="button" data-domain="activities" class="domain-tab px-4 py-2 text-xs font-semibold rounded-xl transition bg-slate-100 text-slate-400 cursor-not-allowed flex items-center gap-2" disabled>
+                        <span>3. Effect on Activities (12M)</span>
+                        <i id="tabIcon_activities" class="fa-solid fa-lock text-slate-400"></i>
+                    </button>
+                    <button type="button" data-domain="healthcare" class="domain-tab px-4 py-2 text-xs font-semibold rounded-xl transition bg-slate-100 text-slate-400 cursor-not-allowed flex items-center gap-2" disabled>
+                        <span>4. Seeking Healthcare (12M)</span>
+                        <i id="tabIcon_healthcare" class="fa-solid fa-lock text-slate-400"></i>
+                    </button>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+                    
+                    <!-- Left Column: Categories with Tick/Cross buttons -->
+                    <div class="lg:col-span-5 space-y-3">
+                        <div id="domainTitleNotice" class="text-xs font-bold uppercase tracking-wider theme-text mb-2">Symptoms during the last 12 months</div>
+                        <div id="categoryListContainer" class="space-y-2.5 max-h-[500px] overflow-y-auto pr-1">
+                            <!-- Populated dynamically via JavaScript -->
+                        </div>
+                    </div>
+
+                    <!-- Right Column: 100% Perfectly Calibrated Body Views -->
+                    <div class="lg:col-span-7 bg-slate-50 rounded-2xl border border-slate-200 p-4 flex flex-col items-center justify-center">
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 w-full">
+                            
+                            <!-- Anterior View (Front) -->
+                            <div class="flex flex-col items-center">
+                                <span class="text-xs font-bold uppercase tracking-wider text-slate-500 mb-3 flex items-center">
+                                    <i class="fa-solid fa-user theme-text mr-1.5"></i> Anterior (Front)
+                                </span>
+                                <div class="relative w-64 h-[520px] flex items-center justify-center bg-white rounded-xl shadow-inner border border-slate-200 overflow-hidden p-3">
+                                    <div class="relative w-full h-full flex items-center justify-center">
+                                        <img src="https://pub-2e95e9514d6e4bc7bc685a9ac293ec89.r2.dev/Medical%20Images/Anterior.png" alt="Anterior Body" class="w-full h-full object-contain filter grayscale(10%) contrast(105%);" onerror="this.src='https://placehold.co/400x800/f1f5f9/475569?text=Anterior+Body'">
+                                    </div>
+                                    
+                                    <!-- 100% Calibrated Anterior Joint Markers -->
+                                    <div id="marker_neck_ant" class="absolute top-[16%] left-[50%] w-3 h-3 -ml-1.5 mt-12 rounded-full transition-all duration-300 opacity-0 bg-slate-300 pointer-events-none z-10"></div>
+                                    <div id="marker_shoulders_ant" class="absolute top-[23%] left-[32%] w-3 h-3 ml-3 mt-11 rounded-full transition-all duration-300 opacity-0 bg-slate-300 pointer-events-none z-10"></div>
+                                    <div id="marker_elbows_ant" class="absolute top-[36%] left-[20%] w-3 h-3 ml-6 mt-7 rounded-full transition-all duration-300 opacity-0 bg-slate-300 pointer-events-none z-10"></div>
+                                    <div id="marker_wrists_hands_ant" class="absolute top-[50%] left-[15%] w-3 h-3 ml-7 -mt-1.5 rounded-full transition-all duration-300 opacity-0 bg-slate-300 pointer-events-none z-10"></div>
+                                    <div id="marker_hips_thighs_ant" class="absolute top-[57%] left-[50%] w-3 h-3 -ml-1.5 -mt-1.5 rounded-full transition-all duration-300 opacity-0 bg-slate-300 pointer-events-none z-10"></div>
+                                    <div id="marker_knees_ant" class="absolute top-[71%] left-[50%] w-3 h-3 -ml-1.5 -mt-1.5 rounded-full transition-all duration-300 opacity-0 bg-slate-300 pointer-events-none z-10"></div>
+                                    <div id="marker_ankles_feet_ant" class="absolute top-[90%] left-[50%] w-3 h-3 -ml-5 -mt-12 rounded-full transition-all duration-300 opacity-0 bg-slate-300 pointer-events-none z-10"></div>
+                                </div>
+                            </div>
+
+                            <!-- Posterior View (Back) -->
+                            <div class="flex flex-col items-center">
+                                <span class="text-xs font-bold uppercase tracking-wider text-slate-500 mb-3 flex items-center">
+                                    <i class="fa-solid fa-user-shield theme-text mr-1.5"></i> Posterior (Back)
+                                </span>
+                                <div class="relative w-64 h-[520px] flex items-center justify-center bg-white rounded-xl shadow-inner border border-slate-200 overflow-hidden p-3">
+                                    <div class="relative w-full h-full flex items-center justify-center">
+                                        <img src="https://pub-2e95e9514d6e4bc7bc685a9ac293ec89.r2.dev/Medical%20Images/Posterior.png" alt="Posterior Body" class="w-full h-full object-contain filter grayscale(10%) contrast(105%);" onerror="this.src='https://placehold.co/400x800/f1f5f9/475569?text=Posterior+Body'">
+                                    </div>
+                                    
+                                    <!-- 100% Calibrated Posterior Joint Markers -->
+                                    <div id="marker_neck_post" class="absolute top-[16%] left-[50%] w-3 h-3 -ml-1.5 mt-11 rounded-full transition-all duration-300 opacity-0 bg-slate-300 pointer-events-none z-10"></div>
+                                    <div id="marker_shoulders_post" class="absolute top-[23%] left-[32%] w-3 h-3 ml-3 mt-11 rounded-full transition-all duration-300 opacity-0 bg-slate-300 pointer-events-none z-10"></div>
+                                    <div id="marker_upper_back_post" class="absolute top-[32%] left-[50%] w-3 h-3 -ml-1.5 -mt-1.5 rounded-full transition-all duration-300 opacity-0 bg-slate-300 pointer-events-none z-10"></div>
+                                    <div id="marker_lower_back_post" class="absolute top-[45%] left-[50%] w-3 h-3 -ml-1.5 -mt-1.5 rounded-full transition-all duration-300 opacity-0 bg-slate-300 pointer-events-none z-10"></div>
+                                    <div id="marker_hips_thighs_post" class="absolute top-[57%] left-[50%] w-3 h-3 -ml-1.5 -mt-1.5 rounded-full transition-all duration-300 opacity-0 bg-slate-300 pointer-events-none z-10"></div>
+                                    <div id="marker_knees_post" class="absolute top-[71%] left-[50%] w-3 h-3 -ml-1.5 -mt-1.5 rounded-full transition-all duration-300 opacity-0 bg-slate-300 pointer-events-none z-10"></div>
+                                    <div id="marker_ankles_feet_post" class="absolute top-[90%] left-[50%] w-3 h-3 -ml-5 -mt-12 rounded-full transition-all duration-300 opacity-0 bg-slate-300 pointer-events-none z-10"></div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="mt-4 text-center text-xs text-slate-500 flex items-center justify-center gap-4">
+                            <span class="flex items-center"><span class="inline-block w-3 h-3 rounded-full bg-emerald-500 mr-1.5 shadow-sm"></span> Green Dot = Pain / Tick</span>
+                            <span class="flex items-center"><span class="inline-block w-3 h-3 rounded-full bg-red-500 mr-1.5 shadow-sm"></span> Red Dot = No Pain / Cross</span>
+                        </div>
+                    </div>
+
+                </div>
+            </section>
+
+            <div class="flex flex-col sm:flex-row justify-between items-center bg-white rounded-2xl shadow-sm border border-slate-200 p-6 gap-4">
+                <div class="text-xs text-slate-500">
+                    <i class="fa-solid fa-circle-info theme-text mr-1"></i> Data will be submitted securely.
+                </div>
+                <div class="flex items-center space-x-3 w-full sm:w-auto">
+                    <button type="submit" id="submitBtn" class="w-full sm:w-auto px-6 py-3 theme-bg hover:opacity-95 text-white font-semibold rounded-xl text-sm shadow-md transition flex items-center justify-center space-x-2">
+                        <i class="fa-solid fa-paper-plane"></i>
+                        <span>Submit Assessment Data</span>
+                    </button>
+                </div>
+            </div>
+        </form>
+
+        <!-- Status Modal -->
+        <div id="statusModal" class="hidden fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+            <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-xl space-y-4 text-center">
+                <div id="modalIcon" class="w-12 h-12 rounded-full mx-auto flex items-center justify-center text-xl"></div>
+                <h3 id="modalTitle" class="text-lg font-bold text-slate-900"></h3>
+                <p id="modalDesc" class="text-sm text-slate-600"></p>
+                <button type="button" id="modalCloseBtn" class="w-full py-2.5 bg-slate-900 hover:bg-slate-800 text-white font-medium rounded-xl text-sm transition">OK</button>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        const categories = [
+            { id: 'neck', name: '1. Neck' },
+            { id: 'shoulders', name: '2. Shoulders' },
+            { id: 'elbows', name: '3. Elbows' },
+            { id: 'wrists_hands', name: '4. Wrists/Hands' },
+            { id: 'upper_back', name: '5. Upper Back' },
+            { id: 'lower_back', name: '6. Lower Back' },
+            { id: 'hips_thighs', name: '7. Hips/Thighs' },
+            { id: 'knees', name: '8. Knees' },
+            { id: 'ankles_feet', name: '9. Ankles/Feet' }
+        ];
+
+        // Multi-domain pain mapping state for the 4 sections
+        const painData = {
+            twelveMonths: { neck: null, shoulders: null, elbows: null, wrists_hands: null, upper_back: null, lower_back: null, hips_thighs: null, knees: null, ankles_feet: null },
+            sevenDays: { neck: null, shoulders: null, elbows: null, wrists_hands: null, upper_back: null, lower_back: null, hips_thighs: null, knees: null, ankles_feet: null },
+            activities: { neck: null, shoulders: null, elbows: null, wrists_hands: null, upper_back: null, lower_back: null, hips_thighs: null, knees: null, ankles_feet: null },
+            healthcare: { neck: null, shoulders: null, elbows: null, wrists_hands: null, upper_back: null, lower_back: null, hips_thighs: null, knees: null, ankles_feet: null }
+        };
+
+        const domainTitles = {
+            twelveMonths: 'Symptoms during the last 12 months',
+            sevenDays: 'Symptoms during the last 7 days',
+            activities: 'Effect on activities (last 12 months)',
+            healthcare: 'Seeking healthcare (last 12 months)'
+        };
+
+        let activeDomain = 'twelveMonths';
+
+        // Track domain unlock status
+        const unlockedDomains = {
+            twelveMonths: true,
+            sevenDays: false,
+            activities: false,
+            healthcare: false
+        };
+
+        // Height Feet & Inches to CM Conversion Handler
+        const heightFeetInput = document.getElementById('secHeightFeet');
+        const heightInchesInput = document.getElementById('secHeightInches');
+        const heightConversionText = document.getElementById('heightConversionText');
+
+        function updateHeightConversion() {
+            const feet = parseFloat(heightFeetInput.value) || 0;
+            const inches = parseFloat(heightInchesInput.value) || 0;
+
+            if (feet > 0 || inches > 0) {
+                const totalInches = (feet * 12) + inches;
+                const cm = totalInches * 2.54;
+                heightConversionText.textContent = `≈ ${cm.toFixed(1)} cm`;
+            } else {
+                heightConversionText.textContent = '';
+            }
+            checkCompletions();
+        }
+
+        heightFeetInput.addEventListener('input', updateHeightConversion);
+        heightInchesInput.addEventListener('input', updateHeightConversion);
+
+        // Render Category List for active domain
+        const container = document.getElementById('categoryListContainer');
+        const domainTitleNotice = document.getElementById('domainTitleNotice');
+
+        function renderCategories() {
+            container.innerHTML = '';
+            domainTitleNotice.textContent = domainTitles[activeDomain];
+
+            categories.forEach(cat => {
+                const state = painData[activeDomain][cat.id];
+                const itemDiv = document.createElement('div');
+                itemDiv.className = "flex items-center justify-between p-3 bg-white rounded-xl border border-slate-200 shadow-sm";
+                itemDiv.innerHTML = `
+                    <span class="text-xs font-semibold text-slate-700">${cat.name}</span>
+                    <div class="flex items-center space-x-2">
+                        <button type="button" data-cat="${cat.id}" data-action="tick" class="cat-btn px-2.5 py-1 rounded-lg border text-xs font-medium transition flex items-center space-x-1 ${state === 'tick' ? 'bg-emerald-600 text-white border-emerald-600 shadow-sm' : 'border-slate-200 text-slate-600 hover:bg-emerald-50 hover:text-emerald-600 hover:border-emerald-300'}" title="Mark Pain (Green Dot)">
+                            <i class="fa-solid fa-check"></i>
+                            <span>Tick</span>
+                        </button>
+                        <button type="button" data-cat="${cat.id}" data-action="cross" class="cat-btn px-2.5 py-1 rounded-lg border text-xs font-medium transition flex items-center space-x-1 ${state === 'cross' ? 'bg-red-600 text-white border-red-600 shadow-sm' : 'border-slate-200 text-slate-600 hover:bg-red-50 hover:text-red-600 hover:border-red-300'}" title="Mark No Pain (Red Dot)">
+                            <i class="fa-solid fa-xmark"></i>
+                            <span>Cross</span>
+                        </button>
+                    </div>
+                `;
+                container.appendChild(itemDiv);
+            });
+
+            // Bind button listeners
+            document.querySelectorAll('.cat-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const catId = btn.getAttribute('data-cat');
+                    const action = btn.getAttribute('data-action');
+
+                    if (painData[activeDomain][catId] === action) {
+                        painData[activeDomain][catId] = null;
+                    } else {
+                        painData[activeDomain][catId] = action;
+                    }
+
+                    renderCategories();
+                    updateBodyMarkers();
+                    checkDomainProgression();
+                });
+            });
+        }
+
+        // Check progression and automatically unlock next domains
+        function checkDomainProgression() {
+            const domainKeys = ['twelveMonths', 'sevenDays', 'activities', 'healthcare'];
+            
+            for (let i = 0; i < domainKeys.length - 1; i++) {
+                const currentKey = domainKeys[i];
+                const nextKey = domainKeys[i + 1];
+
+                const allAnswered = categories.every(cat => painData[currentKey][cat.id] !== null);
+
+                if (allAnswered) {
+                    unlockedDomains[nextKey] = true;
+                }
+            }
+            updateDomainTabsUI();
+        }
+
+        function updateDomainTabsUI() {
+            const domainKeys = ['twelveMonths', 'sevenDays', 'activities', 'healthcare'];
+            domainKeys.forEach(key => {
+                const tabBtn = document.querySelector(`[data-domain="${key}"]`);
+                const icon = document.getElementById(`tabIcon_${key}`);
+
+                if (unlockedDomains[key]) {
+                    tabBtn.disabled = false;
+                    if (activeDomain === key) {
+                        tabBtn.className = "domain-tab px-4 py-2 text-xs font-semibold rounded-xl transition theme-bg text-white shadow-sm flex items-center gap-2";
+                        if(icon) icon.className = "fa-solid fa-lock-open text-emerald-300";
+                    } else {
+                        tabBtn.className = "domain-tab px-4 py-2 text-xs font-semibold rounded-xl transition bg-slate-100 text-slate-700 hover:bg-slate-200 flex items-center gap-2";
+                        if(icon) icon.className = "fa-solid fa-lock-open text-emerald-500";
+                    }
+                } else {
+                    tabBtn.disabled = true;
+                    tabBtn.className = "domain-tab px-4 py-2 text-xs font-semibold rounded-xl transition bg-slate-100 text-slate-400 cursor-not-allowed flex items-center gap-2";
+                    if(icon) icon.className = "fa-solid fa-lock text-slate-400";
+                }
+            });
+        }
+
+        // Domain Tab Switching
+        document.querySelectorAll('.domain-tab').forEach(tab => {
+            tab.addEventListener('click', () => {
+                const domainKey = tab.getAttribute('data-domain');
+                if (!unlockedDomains[domainKey]) return;
+
+                activeDomain = domainKey;
+                updateDomainTabsUI();
+                renderCategories();
+                updateBodyMarkers();
+            });
+        });
+
+        function updateBodyMarkers() {
+            categories.forEach(cat => {
+                const state = painData[activeDomain][cat.id];
+                const markerAnt = document.getElementById(`marker_${cat.id}_ant`);
+                const markerPost = document.getElementById(`marker_${cat.id}_post`);
+
+                if (markerAnt) {
+                    markerAnt.className = markerAnt.className.replace(/pain-dot-green|pain-dot-red/g, '').trim();
+                    markerAnt.style.opacity = "0";
+
+                    const isAnteriorRelevant = ['neck', 'shoulders', 'elbows', 'wrists_hands', 'hips_thighs', 'knees', 'ankles_feet'].includes(cat.id);
+
+                    if (isAnteriorRelevant) {
+                        if (state === 'tick') {
+                            markerAnt.classList.add('pain-dot-green');
+                            markerAnt.style.opacity = "1";
+                        } else if (state === 'cross') {
+                            markerAnt.classList.add('pain-dot-red');
+                            markerAnt.style.opacity = "1";
+                        }
+                    }
+                }
+
+                if (markerPost) {
+                    markerPost.className = markerPost.className.replace(/pain-dot-green|pain-dot-red/g, '').trim();
+                    markerPost.style.opacity = "0";
+
+                    const isPosteriorRelevant = ['neck', 'shoulders', 'upper_back', 'lower_back', 'hips_thighs', 'knees', 'ankles_feet'].includes(cat.id);
+
+                    if (isPosteriorRelevant) {
+                        if (state === 'tick') {
+                            markerPost.classList.add('pain-dot-green');
+                            markerPost.style.opacity = "1";
+                        } else if (state === 'cross') {
+                            markerPost.classList.add('pain-dot-red');
+                            markerPost.style.opacity = "1";
+                        }
+                    }
+                }
+            });
+        }
+
+        // No Pain Anywhere Button (All Cross for active domain)
+        document.getElementById('noPainAnywhereBtn').addEventListener('click', () => {
+            categories.forEach(cat => {
+                painData[activeDomain][cat.id] = 'cross';
+            });
+            renderCategories();
+            updateBodyMarkers();
+            checkDomainProgression();
+        });
+
+        // Reset All for active domain
+        document.getElementById('resetMapBtn').addEventListener('click', () => {
+            categories.forEach(cat => {
+                painData[activeDomain][cat.id] = null;
+            });
+            renderCategories();
+            updateBodyMarkers();
+            checkDomainProgression();
+        });
+
+        // Initial render
+        renderCategories();
+
+        // Question Completion Tracker logic (Updated for Height box 5)
+        function checkCompletions() {
+            const boxes = document.querySelectorAll('.q-card');
+            boxes.forEach(box => {
+                const statusIcon = box.querySelector('.status-icon');
+                let isFilled = false;
+                const qid = statusIcon?.getAttribute('data-qid');
+
+                if (qid === '5') {
+                    // Height special validation check for feet or inches
+                    const ft = document.getElementById('secHeightFeet').value.trim();
+                    const inc = document.getElementById('secHeightInches').value.trim();
+                    isFilled = (ft !== '' || inc !== '');
+                } else {
+                    const inputs = box.querySelectorAll('input');
+                    if (inputs.length > 0) {
+                        const type = inputs[0].type;
+                        if (type === 'radio' || type === 'checkbox') {
+                            isFilled = Array.from(inputs).some(inp => inp.checked);
+                        } else if (type === 'number' || type === 'text' || type === 'email') {
+                            isFilled = Array.from(inputs).some(inp => inp.value.trim() !== '');
+                        }
+                    }
+                }
+
+                if (isFilled) {
+                    box.classList.add('completed');
+                    if (statusIcon) statusIcon.className = "pt-0.5 text-emerald-500 status-icon";
+                } else {
+                    box.classList.remove('completed');
+                    if (statusIcon) statusIcon.className = "pt-0.5 text-slate-300 status-icon";
+                }
+            });
+        }
+
+        document.querySelectorAll('.tracker-input').forEach(input => {
+            input.addEventListener('input', checkCompletions);
+            input.addEventListener('change', checkCompletions);
+        });
+
+        // Modal handling
+        function showModal(title, desc, isSuccess) {
+            const modal = document.getElementById('statusModal');
+            const titleEl = document.getElementById('modalTitle');
+            const descEl = document.getElementById('modalDesc');
+            const iconEl = document.getElementById('modalIcon');
+
+            titleEl.textContent = title;
+            descEl.textContent = desc;
+
+            if (isSuccess) {
+                iconEl.className = "w-12 h-12 rounded-full mx-auto flex items-center justify-center text-xl bg-emerald-100 text-emerald-600";
+                iconEl.innerHTML = '<i class="fa-solid fa-check"></i>';
+            } else {
+                iconEl.className = "w-12 h-12 rounded-full mx-auto flex items-center justify-center text-xl bg-red-100 text-red-600";
+                iconEl.innerHTML = '<i class="fa-solid fa-triangle-exclamation"></i>';
+            }
+
+            modal.classList.remove('hidden');
+        }
+
+        document.getElementById('modalCloseBtn').addEventListener('click', () => {
+            document.getElementById('statusModal').classList.add('hidden');
+        });
+
+        // Form Submission & n8n Webhook POST Integration
+        document.getElementById('assessmentForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const feet = parseFloat(document.getElementById('secHeightFeet').value) || 0;
+            const inches = parseFloat(document.getElementById('secHeightInches').value) || 0;
+            const totalInches = (feet * 12) + inches;
+            const calculatedCm = totalInches > 0 ? (totalInches * 2.54).toFixed(1) : "0";
+
+            const demographic = {
+                email: document.getElementById('secEmail').value,
+                studentId: document.getElementById('secStudentId').value,
+                age: document.getElementById('secAge').value,
+                sex: document.querySelector('input[name="secSex"]:checked')?.value || "",
+                academicYear: document.querySelector('input[name="secYear"]:checked')?.value || "",
+                institutionCode: document.getElementById('secInstCode').value,
+                heightCm: calculatedCm,
+                heightFeet: feet.toString(),
+                heightInches: inches.toString(),
+                weight: document.getElementById('secWeight').value,
+                musculoskeletalDiagnosis: document.querySelector('input[name="secDiag"]:checked')?.value || "",
+                injuryTrauma: document.querySelector('input[name="secInjury"]:checked')?.value || ""
+            };
+
+            const studyPatterns = {
+                studyHoursOutside: document.getElementById('secQ9').value,
+                studyDaysPerWeek: document.getElementById('secQ10').value,
+                sittingHoursPerDay: document.getElementById('secQ11').value,
+                longestSeatedPeriodMinutes: document.getElementById('secQ12').value,
+                standWalkFrequency: document.querySelector('input[name="secQ13"]:checked')?.value || "",
+                intentionalStretchingBreaks: document.querySelector('input[name="secQ14"]:checked')?.value || ""
+            };
+
+            const digitalExposure = {
+                primaryStudyDevice: document.querySelector('input[name="secQ15"]:checked')?.value || "",
+                academicUseHours: {
+                    smartphone: document.getElementById('secQ16_phone').value || "0",
+                    tablet: document.getElementById('secQ16_tablet').value || "0",
+                    laptopDesktop: document.getElementById('secQ16_pc').value || "0",
+                    other: document.getElementById('secQ16_other').value || "0"
+                },
+                nonAcademicScreenTimeHours: document.getElementById('secQ17').value,
+                longestContinuousUseMinutes: document.getElementById('secQ18').value,
+                recliningBedSofaUsage: document.querySelector('input[name="secQ19"]:checked')?.value || "",
+                downwardGazePhoneHabit: document.querySelector('input[name="secQ20"]:checked')?.value || "",
+            };
+
+            const ergonomicBehaviors = {
+                commonStudyLocation: document.querySelector('input[name="secQ21"]:checked')?.value || "",
+                commonStudyLocationOther: document.getElementById('secQ21_other_text')?.value || "",
+                chairBackSupport: document.querySelector('input[name="secQ22"]:checked')?.value || "",
+                screenAtEyeLevel: document.querySelector('input[name="secQ23"]:checked')?.value || "",
+                neckBentForward: document.querySelector('input[name="secQ24"]:checked')?.value || "",
+                hunchedSlouchedTrunk: document.querySelector('input[name="secQ25"]:checked')?.value || "",
+                sittingPositionChangeFrequency: document.querySelector('input[name="secQ26"]:checked')?.value || ""
+            };
+
+            const payload = {
+                timestamp: new Date().toISOString(),
+                sectionA_demographics: demographic,
+                sectionB_studyPatterns: studyPatterns,
+                sectionC_digitalExposure: digitalExposure,
+                sectionD_ergonomicBehaviors: ergonomicBehaviors,
+                sectionE_painMappingDomains: painData
+            };
+
+            const submitBtn = document.getElementById('submitBtn');
+            const originalText = submitBtn.innerHTML;
+            submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin mr-2"></i> Submitting...';
+            submitBtn.disabled = true;
+
+            try {
+                const n8nWebhookUrl = 'https://n8n.shabihaz.com/webhook/msk-survey';
+
+                const response = await fetch(n8nWebhookUrl, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(payload)
+                });
+
+                if (!response.ok) {
+                    throw new Error(`Server returned status ${response.status}`);
+                }
+
+                showModal(
+                    "Assessment Successfully Submitted!",
+                    "Your assessment data, 4-domain pain mappings, and anatomical selections have been successfully logged.",
+                    true
+                );
+
+            } catch (err) {
+                console.error("Webhook Error:", err);
+                showModal(
+                    "Submission Failed",
+                    "Could not connect to the n8n webhook endpoint. Please verify your URL or CORS settings in n8n.",
+                    false
+                );
+            } finally {
+                submitBtn.innerHTML = originalText;
+                submitBtn.disabled = false;
+            }
+        });
+    </script>
+</body>
+</html>
