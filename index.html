@@ -39,6 +39,12 @@
             border-color: #34d399 !important;
             background-color: #f0fdf4 !important;
         }
+        /* Domain Completion Fade Effect */
+        .domain-completed-card {
+            opacity: 0.5;
+            pointer-events: none;
+            background-color: #f8fafc !important;
+        }
     </style>
 </head>
 <body class="bg-slate-50 text-slate-800 h-full flex flex-col">
@@ -714,7 +720,7 @@
                         <div class="bg-teal-50 text-[#168582] w-8 h-8 rounded-full flex items-center justify-center font-bold text-sm">5</div>
                         <div>
                             <h2 class="text-lg font-semibold text-slate-900">SECTION E — ANATOMICAL BODY PAIN MAPPING</h2>
-                            <p class="text-xs text-slate-500">Complete each section to automatically unlock the next domain</p>
+                            <p class="text-xs text-slate-500">Complete each section to proceed to the next domain</p>
                         </div>
                     </div>
                     <div class="flex items-center gap-2">
@@ -727,27 +733,27 @@
                     </div>
                 </div>
 
-                <!-- Progressive Domain Tabs -->
+                <!-- Progressive Domain Tabs (All Unlocked, Completed ones fade out) -->
                 <div class="flex flex-wrap gap-2 border-b border-slate-200 pb-3" id="domainTabsContainer">
                     <button type="button" data-domain="twelveMonths" class="domain-tab px-4 py-2 text-xs font-semibold rounded-xl transition theme-bg text-white shadow-sm flex items-center gap-2">
                         <span>1. Symptoms (Last 12 Months)</span>
-                        <i id="tabIcon_twelveMonths" class="fa-solid fa-lock-open text-emerald-300"></i>
+                        <i id="tabIcon_twelveMonths" class="fa-solid fa-check text-emerald-300"></i>
                     </button>
-                    <button type="button" data-domain="sevenDays" class="domain-tab px-4 py-2 text-xs font-semibold rounded-xl transition bg-slate-100 text-slate-400 cursor-not-allowed flex items-center gap-2" disabled>
+                    <button type="button" data-domain="sevenDays" class="domain-tab px-4 py-2 text-xs font-semibold rounded-xl transition bg-slate-100 text-slate-700 hover:bg-slate-200 flex items-center gap-2">
                         <span>2. Symptoms (Last 7 Days)</span>
-                        <i id="tabIcon_sevenDays" class="fa-solid fa-lock text-slate-400"></i>
+                        <i id="tabIcon_sevenDays" class="fa-solid fa-circle text-slate-300"></i>
                     </button>
-                    <button type="button" data-domain="activities" class="domain-tab px-4 py-2 text-xs font-semibold rounded-xl transition bg-slate-100 text-slate-400 cursor-not-allowed flex items-center gap-2" disabled>
+                    <button type="button" data-domain="activities" class="domain-tab px-4 py-2 text-xs font-semibold rounded-xl transition bg-slate-100 text-slate-700 hover:bg-slate-200 flex items-center gap-2">
                         <span>3. Effect on Activities (12M)</span>
-                        <i id="tabIcon_activities" class="fa-solid fa-lock text-slate-400"></i>
+                        <i id="tabIcon_activities" class="fa-solid fa-circle text-slate-300"></i>
                     </button>
-                    <button type="button" data-domain="healthcare" class="domain-tab px-4 py-2 text-xs font-semibold rounded-xl transition bg-slate-100 text-slate-400 cursor-not-allowed flex items-center gap-2" disabled>
+                    <button type="button" data-domain="healthcare" class="domain-tab px-4 py-2 text-xs font-semibold rounded-xl transition bg-slate-100 text-slate-700 hover:bg-slate-200 flex items-center gap-2">
                         <span>4. Seeking Healthcare (12M)</span>
-                        <i id="tabIcon_healthcare" class="fa-solid fa-lock text-slate-400"></i>
+                        <i id="tabIcon_healthcare" class="fa-solid fa-circle text-slate-300"></i>
                     </button>
                 </div>
 
-                <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+                <div id="sectionEWrapper" class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
                     
                     <!-- Left Column: Categories with Tick/Cross buttons -->
                     <div class="lg:col-span-5 space-y-3">
@@ -867,14 +873,6 @@
 
         let activeDomain = 'twelveMonths';
 
-        // Track domain unlock status
-        const unlockedDomains = {
-            twelveMonths: true,
-            sevenDays: false,
-            activities: false,
-            healthcare: false
-        };
-
         // Height Feet & Inches to CM Conversion Handler
         const heightFeetInput = document.getElementById('secHeightFeet');
         const heightInchesInput = document.getElementById('secHeightInches');
@@ -897,13 +895,25 @@
         heightFeetInput.addEventListener('input', updateHeightConversion);
         heightInchesInput.addEventListener('input', updateHeightConversion);
 
-        // Render Category List for active domain
+        // Render Category List for active domain with completion fade effect support
         const container = document.getElementById('categoryListContainer');
         const domainTitleNotice = document.getElementById('domainTitleNotice');
+        const sectionEWrapper = document.getElementById('sectionEWrapper');
+
+        function isDomainComplete(domainKey) {
+            return categories.every(cat => painData[domainKey][cat.id] !== null);
+        }
 
         function renderCategories() {
             container.innerHTML = '';
             domainTitleNotice.textContent = domainTitles[activeDomain];
+
+            const completed = isDomainComplete(activeDomain);
+            if (completed) {
+                sectionEWrapper.classList.add('domain-completed-card');
+            } else {
+                sectionEWrapper.classList.remove('domain-completed-card');
+            }
 
             categories.forEach(cat => {
                 const state = painData[activeDomain][cat.id];
@@ -939,26 +949,9 @@
 
                     renderCategories();
                     updateBodyMarkers();
-                    checkDomainProgression();
+                    updateDomainTabsUI();
                 });
             });
-        }
-
-        // Check progression and automatically unlock next domains
-        function checkDomainProgression() {
-            const domainKeys = ['twelveMonths', 'sevenDays', 'activities', 'healthcare'];
-            
-            for (let i = 0; i < domainKeys.length - 1; i++) {
-                const currentKey = domainKeys[i];
-                const nextKey = domainKeys[i + 1];
-
-                const allAnswered = categories.every(cat => painData[currentKey][cat.id] !== null);
-
-                if (allAnswered) {
-                    unlockedDomains[nextKey] = true;
-                }
-            }
-            updateDomainTabsUI();
         }
 
         function updateDomainTabsUI() {
@@ -966,30 +959,26 @@
             domainKeys.forEach(key => {
                 const tabBtn = document.querySelector(`[data-domain="${key}"]`);
                 const icon = document.getElementById(`tabIcon_${key}`);
+                const completed = isDomainComplete(key);
 
-                if (unlockedDomains[key]) {
-                    tabBtn.disabled = false;
-                    if (activeDomain === key) {
-                        tabBtn.className = "domain-tab px-4 py-2 text-xs font-semibold rounded-xl transition theme-bg text-white shadow-sm flex items-center gap-2";
-                        if(icon) icon.className = "fa-solid fa-lock-open text-emerald-300";
-                    } else {
-                        tabBtn.className = "domain-tab px-4 py-2 text-xs font-semibold rounded-xl transition bg-slate-100 text-slate-700 hover:bg-slate-200 flex items-center gap-2";
-                        if(icon) icon.className = "fa-solid fa-lock-open text-emerald-500";
-                    }
+                if (activeDomain === key) {
+                    tabBtn.className = "domain-tab px-4 py-2 text-xs font-semibold rounded-xl transition theme-bg text-white shadow-sm flex items-center gap-2";
                 } else {
-                    tabBtn.disabled = true;
-                    tabBtn.className = "domain-tab px-4 py-2 text-xs font-semibold rounded-xl transition bg-slate-100 text-slate-400 cursor-not-allowed flex items-center gap-2";
-                    if(icon) icon.className = "fa-solid fa-lock text-slate-400";
+                    tabBtn.className = "domain-tab px-4 py-2 text-xs font-semibold rounded-xl transition bg-slate-100 text-slate-700 hover:bg-slate-200 flex items-center gap-2";
+                }
+
+                if (completed) {
+                    if(icon) icon.className = "fa-solid fa-check text-emerald-300";
+                } else {
+                    if(icon) icon.className = "fa-solid fa-circle text-slate-300";
                 }
             });
         }
 
-        // Domain Tab Switching
+        // Domain Tab Switching (All tabs accessible freely as requested)
         document.querySelectorAll('.domain-tab').forEach(tab => {
             tab.addEventListener('click', () => {
                 const domainKey = tab.getAttribute('data-domain');
-                if (!unlockedDomains[domainKey]) return;
-
                 activeDomain = domainKey;
                 updateDomainTabsUI();
                 renderCategories();
@@ -1046,7 +1035,7 @@
             });
             renderCategories();
             updateBodyMarkers();
-            checkDomainProgression();
+            updateDomainTabsUI();
         });
 
         // Reset All for active domain
@@ -1056,11 +1045,12 @@
             });
             renderCategories();
             updateBodyMarkers();
-            checkDomainProgression();
+            updateDomainTabsUI();
         });
 
         // Initial render
         renderCategories();
+        updateDomainTabsUI();
 
         // Question Completion Tracker logic
         function checkCompletions() {
@@ -1217,7 +1207,7 @@
                 const response = await fetch(n8nWebhookUrl, {
                     method: 'POST',
                     headers: {
-                        'Content-Type': 'application/json'
+                        'Content-Type': 'Application/json'
                     },
                     body: JSON.stringify(payload)
                 });
