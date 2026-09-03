@@ -39,11 +39,29 @@
             border-color: #34d399 !important;
             background-color: #f0fdf4 !important;
         }
-        /* Domain Completion Fade Effect */
-        .domain-completed-card {
-            opacity: 0.5;
+        /* Smooth Fade & Slide Reveal Animation */
+        .domain-tab {
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .domain-tab.anim-hidden {
+            opacity: 0;
+            transform: translateY(-8px);
             pointer-events: none;
-            background-color: #f8fafc !important;
+            position: absolute;
+            visibility: hidden;
+        }
+        /* Conditional Injury Box Animation */
+        #injuryDetailsBox {
+            transition: all 0.4s ease-in-out;
+            max-height: 0;
+            overflow: hidden;
+            opacity: 0;
+        }
+        #injuryDetailsBox.show-injury {
+            max-height: 500px;
+            opacity: 1;
         }
     </style>
 </head>
@@ -217,24 +235,34 @@
                         </div>
                     </div>
 
-                    <!-- Q8 -->
-                    <div id="qBox_8" class="q-card bg-white rounded-xl border border-slate-200 p-4 shadow-sm flex items-start gap-3">
-                        <div class="pt-0.5 text-slate-300 status-icon" data-qid="8"><i class="fa-solid fa-circle-check text-lg"></i></div>
-                        <div class="flex-1 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-                            <label class="text-sm font-medium text-slate-800 flex-1">8. Have you had a significant neck, back, shoulder or upper-limb injury/trauma before this study?</label>
-                            <div class="flex gap-3 w-full sm:w-auto">
-                                <label class="flex items-center space-x-2 text-xs font-medium cursor-pointer bg-slate-50 px-3.5 py-2 rounded-lg border border-slate-200 hover:bg-slate-100">
-                                    <input type="radio" name="secInjury" value="Yes" required class="tracker-input text-[#168582]">
-                                    <span>Yes</span>
-                                </label>
-                                <label class="flex items-center space-x-2 text-xs font-medium cursor-pointer bg-slate-50 px-3.5 py-2 rounded-lg border border-slate-200 hover:bg-slate-100">
-                                    <input type="radio" name="secInjury" value="No" class="tracker-input text-[#168582]">
-                                    <span>No</span>
-                                </label>
-                                <label class="flex items-center space-x-2 text-xs font-medium cursor-pointer bg-slate-50 px-3.5 py-2 rounded-lg border border-slate-200 hover:bg-slate-100">
-                                    <input type="radio" name="secInjury" value="Unsure" class="tracker-input text-[#168582]">
-                                    <span>Unsure</span>
-                                </label>
+                    <!-- Q8 (With Conditional Body Part Checkboxes for Trauma/Injury) -->
+                    <div id="qBox_8" class="q-card bg-white rounded-xl border border-slate-200 p-4 shadow-sm flex flex-col gap-3">
+                        <div class="flex items-start gap-3 w-full">
+                            <div class="pt-0.5 text-slate-300 status-icon" data-qid="8"><i class="fa-solid fa-circle-check text-lg"></i></div>
+                            <div class="flex-1 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                                <label class="text-sm font-medium text-slate-800 flex-1">8. Have you had a significant neck, back, shoulder or upper-limb injury/trauma before this study?</label>
+                                <div class="flex gap-3 w-full sm:w-auto">
+                                    <label class="flex items-center space-x-2 text-xs font-medium cursor-pointer bg-slate-50 px-3.5 py-2 rounded-lg border border-slate-200 hover:bg-slate-100">
+                                        <input type="radio" name="secInjury" value="Yes" required class="tracker-input text-[#168582]" id="injuryYesRadio">
+                                        <span>Yes</span>
+                                    </label>
+                                    <label class="flex items-center space-x-2 text-xs font-medium cursor-pointer bg-slate-50 px-3.5 py-2 rounded-lg border border-slate-200 hover:bg-slate-100">
+                                        <input type="radio" name="secInjury" value="No" class="tracker-input text-[#168582]" id="injuryNoRadio">
+                                        <span>No</span>
+                                    </label>
+                                    <label class="flex items-center space-x-2 text-xs font-medium cursor-pointer bg-slate-50 px-3.5 py-2 rounded-lg border border-slate-200 hover:bg-slate-100">
+                                        <input type="radio" name="secInjury" value="Unsure" class="tracker-input text-[#168582]" id="injuryUnsureRadio">
+                                        <span>Unsure</span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Hidden by default: 9 Body Parts Checkboxes when Yes is selected -->
+                        <div id="injuryDetailsBox" class="mt-2 pt-3 border-t border-slate-100">
+                            <p class="text-xs font-semibold text-[#168582] mb-2"><i class="fa-solid fa-hand-point-down mr-1"></i> Please specify the anatomical area(s) affected by injury/trauma:</p>
+                            <div class="grid grid-cols-2 sm:grid-cols-3 gap-2" id="injuryCheckboxesContainer">
+                                <!-- Dynamically populated or standard checkboxes -->
                             </div>
                         </div>
                     </div>
@@ -720,7 +748,7 @@
                         <div class="bg-teal-50 text-[#168582] w-8 h-8 rounded-full flex items-center justify-center font-bold text-sm">5</div>
                         <div>
                             <h2 class="text-lg font-semibold text-slate-900">SECTION E — ANATOMICAL BODY PAIN MAPPING</h2>
-                            <p class="text-xs text-slate-500">Complete each section to proceed to the next domain</p>
+                            <p class="text-xs text-slate-500">Complete each section to unlock the next domain</p>
                         </div>
                     </div>
                     <div class="flex items-center gap-2">
@@ -733,27 +761,27 @@
                     </div>
                 </div>
 
-                <!-- Progressive Domain Tabs (All Unlocked, Completed ones fade out) -->
+                <!-- Progressive Domain Tabs (Sequential Unlocking with Smooth Animation) -->
                 <div class="flex flex-wrap gap-2 border-b border-slate-200 pb-3" id="domainTabsContainer">
                     <button type="button" data-domain="twelveMonths" class="domain-tab px-4 py-2 text-xs font-semibold rounded-xl transition theme-bg text-white shadow-sm flex items-center gap-2">
                         <span>1. Symptoms (Last 12 Months)</span>
-                        <i id="tabIcon_twelveMonths" class="fa-solid fa-check text-emerald-300"></i>
+                        <i id="tabIcon_twelveMonths" class="fa-solid fa-circle text-slate-300"></i>
                     </button>
-                    <button type="button" data-domain="sevenDays" class="domain-tab px-4 py-2 text-xs font-semibold rounded-xl transition bg-slate-100 text-slate-700 hover:bg-slate-200 flex items-center gap-2">
+                    <button type="button" data-domain="sevenDays" class="domain-tab anim-hidden px-4 py-2 text-xs font-semibold rounded-xl transition bg-slate-100 text-slate-700 hover:bg-slate-200 flex items-center gap-2">
                         <span>2. Symptoms (Last 7 Days)</span>
                         <i id="tabIcon_sevenDays" class="fa-solid fa-circle text-slate-300"></i>
                     </button>
-                    <button type="button" data-domain="activities" class="domain-tab px-4 py-2 text-xs font-semibold rounded-xl transition bg-slate-100 text-slate-700 hover:bg-slate-200 flex items-center gap-2">
+                    <button type="button" data-domain="activities" class="domain-tab anim-hidden px-4 py-2 text-xs font-semibold rounded-xl transition bg-slate-100 text-slate-700 hover:bg-slate-200 flex items-center gap-2">
                         <span>3. Effect on Activities (12M)</span>
                         <i id="tabIcon_activities" class="fa-solid fa-circle text-slate-300"></i>
                     </button>
-                    <button type="button" data-domain="healthcare" class="domain-tab px-4 py-2 text-xs font-semibold rounded-xl transition bg-slate-100 text-slate-700 hover:bg-slate-200 flex items-center gap-2">
+                    <button type="button" data-domain="healthcare" class="domain-tab anim-hidden px-4 py-2 text-xs font-semibold rounded-xl transition bg-slate-100 text-slate-700 hover:bg-slate-200 flex items-center gap-2">
                         <span>4. Seeking Healthcare (12M)</span>
                         <i id="tabIcon_healthcare" class="fa-solid fa-circle text-slate-300"></i>
                     </button>
                 </div>
 
-                <div id="sectionEWrapper" class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
                     
                     <!-- Left Column: Categories with Tick/Cross buttons -->
                     <div class="lg:col-span-5 space-y-3">
@@ -856,6 +884,39 @@
             { id: 'ankles_feet', name: '9. Ankles/Feet' }
         ];
 
+        // Populate injury checkboxes in Q8 dynamically
+        const injuryCheckboxesContainer = document.getElementById('injuryCheckboxesContainer');
+        categories.forEach(cat => {
+            const label = document.createElement('label');
+            label.className = "flex items-center space-x-2 text-xs font-medium cursor-pointer bg-slate-50 px-3 py-2 rounded-lg border border-slate-200 hover:bg-slate-100 transition";
+            label.innerHTML = `
+                <input type="checkbox" name="injuryArea" value="${cat.id}" class="tracker-input text-[#168582]">
+                <span class="text-slate-700">${cat.name}</span>
+            `;
+            injuryCheckboxesContainer.appendChild(label);
+        });
+
+        // Toggle Q8 injury sub-options display
+        const injuryYesRadio = document.getElementById('injuryYesRadio');
+        const injuryNoRadio = document.getElementById('injuryNoRadio');
+        const injuryUnsureRadio = document.getElementById('injuryUnsureRadio');
+        const injuryDetailsBox = document.getElementById('injuryDetailsBox');
+
+        function handleInjuryToggle() {
+            if (injuryYesRadio.checked) {
+                injuryDetailsBox.classList.add('show-injury');
+            } else {
+                injuryDetailsBox.classList.remove('show-injury');
+                // Uncheck checkboxes if hidden
+                injuryCheckboxesContainer.querySelectorAll('input[type="checkbox"]').forEach(cb => cb.checked = false);
+            }
+            checkCompletions();
+        }
+
+        injuryYesRadio.addEventListener('change', handleInjuryToggle);
+        injuryNoRadio.addEventListener('change', handleInjuryToggle);
+        injuryUnsureRadio.addEventListener('change', handleInjuryToggle);
+
         // Multi-domain pain mapping state for the 4 sections
         const painData = {
             twelveMonths: { neck: null, shoulders: null, elbows: null, wrists_hands: null, upper_back: null, lower_back: null, hips_thighs: null, knees: null, ankles_feet: null },
@@ -872,6 +933,14 @@
         };
 
         let activeDomain = 'twelveMonths';
+
+        // Track domain unlock status (Only first domain unlocked initially)
+        const unlockedDomains = {
+            twelveMonths: true,
+            sevenDays: false,
+            activities: false,
+            healthcare: false
+        };
 
         // Height Feet & Inches to CM Conversion Handler
         const heightFeetInput = document.getElementById('secHeightFeet');
@@ -895,25 +964,31 @@
         heightFeetInput.addEventListener('input', updateHeightConversion);
         heightInchesInput.addEventListener('input', updateHeightConversion);
 
-        // Render Category List for active domain with completion fade effect support
+        // Render Category List for active domain
         const container = document.getElementById('categoryListContainer');
         const domainTitleNotice = document.getElementById('domainTitleNotice');
-        const sectionEWrapper = document.getElementById('sectionEWrapper');
 
         function isDomainComplete(domainKey) {
             return categories.every(cat => painData[domainKey][cat.id] !== null);
         }
 
+        function checkDomainProgression() {
+            const domainKeys = ['twelveMonths', 'sevenDays', 'activities', 'healthcare'];
+            
+            for (let i = 0; i < domainKeys.length - 1; i++) {
+                const currentKey = domainKeys[i];
+                const nextKey = domainKeys[i + 1];
+
+                if (isDomainComplete(currentKey)) {
+                    unlockedDomains[nextKey] = true;
+                }
+            }
+            updateDomainTabsUI();
+        }
+
         function renderCategories() {
             container.innerHTML = '';
             domainTitleNotice.textContent = domainTitles[activeDomain];
-
-            const completed = isDomainComplete(activeDomain);
-            if (completed) {
-                sectionEWrapper.classList.add('domain-completed-card');
-            } else {
-                sectionEWrapper.classList.remove('domain-completed-card');
-            }
 
             categories.forEach(cat => {
                 const state = painData[activeDomain][cat.id];
@@ -949,36 +1024,53 @@
 
                     renderCategories();
                     updateBodyMarkers();
-                    updateDomainTabsUI();
+                    checkDomainProgression();
                 });
             });
         }
 
         function updateDomainTabsUI() {
             const domainKeys = ['twelveMonths', 'sevenDays', 'activities', 'healthcare'];
-            domainKeys.forEach(key => {
+            domainKeys.forEach((key, index) => {
                 const tabBtn = document.querySelector(`[data-domain="${key}"]`);
                 const icon = document.getElementById(`tabIcon_${key}`);
-                const completed = isDomainComplete(key);
-
-                if (activeDomain === key) {
-                    tabBtn.className = "domain-tab px-4 py-2 text-xs font-semibold rounded-xl transition theme-bg text-white shadow-sm flex items-center gap-2";
-                } else {
-                    tabBtn.className = "domain-tab px-4 py-2 text-xs font-semibold rounded-xl transition bg-slate-100 text-slate-700 hover:bg-slate-200 flex items-center gap-2";
+                
+                let isVisible = true;
+                if (index > 0) {
+                    const prevKey = domainKeys[index - 1];
+                    isVisible = isDomainComplete(prevKey);
+                    unlockedDomains[key] = isVisible;
                 }
 
-                if (completed) {
-                    if(icon) icon.className = "fa-solid fa-check text-emerald-300";
+                if (isVisible) {
+                    tabBtn.classList.remove('anim-hidden');
+                    tabBtn.disabled = false;
+                    
+                    const completed = isDomainComplete(key);
+                    if (activeDomain === key) {
+                        tabBtn.className = "domain-tab px-4 py-2 text-xs font-semibold rounded-xl transition theme-bg text-white shadow-sm flex items-center gap-2";
+                    } else {
+                        tabBtn.className = "domain-tab px-4 py-2 text-xs font-semibold rounded-xl transition bg-slate-100 text-slate-700 hover:bg-slate-200 flex items-center gap-2";
+                    }
+
+                    if (completed) {
+                        if(icon) icon.className = "fa-solid fa-check text-emerald-300";
+                    } else {
+                        if(icon) icon.className = "fa-solid fa-circle text-slate-300";
+                    }
                 } else {
-                    if(icon) icon.className = "fa-solid fa-circle text-slate-300";
+                    tabBtn.classList.add('anim-hidden');
+                    tabBtn.disabled = true;
                 }
             });
         }
 
-        // Domain Tab Switching (All tabs accessible freely as requested)
+        // Domain Tab Switching
         document.querySelectorAll('.domain-tab').forEach(tab => {
             tab.addEventListener('click', () => {
                 const domainKey = tab.getAttribute('data-domain');
+                if (!unlockedDomains[domainKey]) return;
+
                 activeDomain = domainKey;
                 updateDomainTabsUI();
                 renderCategories();
@@ -1035,7 +1127,7 @@
             });
             renderCategories();
             updateBodyMarkers();
-            updateDomainTabsUI();
+            checkDomainProgression();
         });
 
         // Reset All for active domain
@@ -1045,7 +1137,7 @@
             });
             renderCategories();
             updateBodyMarkers();
-            updateDomainTabsUI();
+            checkDomainProgression();
         });
 
         // Initial render
@@ -1064,6 +1156,16 @@
                     const ft = document.getElementById('secHeightFeet').value.trim();
                     const inc = document.getElementById('secHeightInches').value.trim();
                     isFilled = (ft !== '' || inc !== '');
+                } else if (qid === '8') {
+                    const injuryVal = document.querySelector('input[name="secInjury"]:checked')?.value;
+                    if (injuryVal === 'No' || injuryVal === 'Unsure') {
+                        isFilled = true;
+                    } else if (injuryVal === 'Yes') {
+                        const checkedAreas = injuryCheckboxesContainer.querySelectorAll('input[type="checkbox"]:checked');
+                        isFilled = checkedAreas.length > 0;
+                    } else {
+                        isFilled = false;
+                    }
                 } else {
                     const inputs = box.querySelectorAll('input');
                     if (inputs.length > 0) {
@@ -1139,6 +1241,15 @@
             const totalInches = (feet * 12) + inches;
             const calculatedCm = totalInches > 0 ? (totalInches * 2.54).toFixed(1) : "0";
 
+            // Gather selected injury areas if Yes
+            const injuryStatus = document.querySelector('input[name="secInjury"]:checked')?.value || "";
+            const selectedInjuryAreas = [];
+            if (injuryStatus === 'Yes') {
+                injuryCheckboxesContainer.querySelectorAll('input[type="checkbox"]:checked').forEach(cb => {
+                    selectedInjuryAreas.push(cb.value);
+                });
+            }
+
             const demographic = {
                 email: document.getElementById('secEmail').value,
                 studentId: document.getElementById('secStudentId')?.value || "",
@@ -1151,7 +1262,8 @@
                 heightInches: inches.toString(),
                 weight: document.getElementById('secWeight').value,
                 musculoskeletalDiagnosis: document.querySelector('input[name="secDiag"]:checked')?.value || "",
-                injuryTrauma: document.querySelector('input[name="secInjury"]:checked')?.value || ""
+                injuryTrauma: injuryStatus,
+                injuryTraumaDetails: selectedInjuryAreas
             };
 
             const studyPatterns = {
@@ -1207,7 +1319,7 @@
                 const response = await fetch(n8nWebhookUrl, {
                     method: 'POST',
                     headers: {
-                        'Content-Type': 'Application/json'
+                        'Content-Type': 'application/json'
                     },
                     body: JSON.stringify(payload)
                 });
